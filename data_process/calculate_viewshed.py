@@ -47,9 +47,10 @@ def vectorize_tif(input_raster, output_vector):
             gdal.Polygonize(
                 mask_band, mask_band, dst_layer, 0, ["ATTRIBUTE=Value"], callback=None
             )
-
+        return True
     except Exception as ex:
         print("vectorize_tif", ex)
+    return False
 
 
 def read_files(file_path, separate):
@@ -121,8 +122,13 @@ def process_point(feature, pathname, observer_height, dem_input, radio_mts):
         observer_x, observer_y = coordinates
         tif_path = f"{pathname}/{num}__{observer_height}.tiff"
         geojson_path = f"{pathname}/{num}__{observer_height}.geojson"
-        if Path(tif_path).exists() and Path(geojson_path).exists():
-            return True
+        if Path(geojson_path).exists():
+            try:
+                tmp_data = json.load(open(geojson_path)).get("features")
+                if len(tmp_data) > 0:
+                    return True
+            except Exception as ex:
+                print(ex)
 
         gdal.ViewshedGenerate(
             srcBand=band,
@@ -142,8 +148,7 @@ def process_point(feature, pathname, observer_height, dem_input, radio_mts):
             maxDistance=radio_mts,
         )
         # # vectorize
-        vectorize_tif(tif_path, geojson_path)
-        return True
+        return vectorize_tif(tif_path, geojson_path)
     except Exception as e:
         print("process_point", e)
     return False
@@ -229,6 +234,7 @@ def run(
     default=10000,
     type=int,
 )
+
 def main(
         dem_input, points, observer_height, folder_viewhead, output_geojson_file, radio_mts
 ):
