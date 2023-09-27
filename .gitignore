@@ -1,0 +1,4 @@
+.idea/
+*.pyc
+**/*/data/
+data_process_anteas/*
