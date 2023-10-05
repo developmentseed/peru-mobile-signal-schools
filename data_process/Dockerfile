@@ -12,6 +12,7 @@ RUN pip install \
   rio-cogeo \
   requests \
   rarfile \
-  mercantile
+  mercantile \
+  overpass
 
 WORKDIR /mnt
