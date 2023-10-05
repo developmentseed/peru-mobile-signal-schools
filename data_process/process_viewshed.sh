@@ -53,18 +53,13 @@ $gdaldocker python3 calculate_viewshed.py \
       --points=${outputDir}/cobertura.geojson \
       --folder_viewhead=${dataDir}/viewshed \
       --observer_height=30 \
-      --output_geojson_file=${outputDir}/vector_viewshed.geojson
+      --output_geojson_bbox=${outputDir}/vector_viewshed_bbox.geojson
 
-# 30 for observer_height
-# for file in $(find ${dataDir}/viewshed/* -type f -name "*_30.geojson"); do
-#     value=$(echo $file | awk -F'/' '{print $(NF-0)}' | cut -d'_' -f1)
-#     $gdaldocker ogr2ogr -f "GeoJSON" \
-#           -s_srs EPSG:3857 \
-#           -t_srs EPSG:4326 \
-#           -simplify 40 \
-#           ${outputGeojsonDir}/${value}.geojson \
-#           $file \
-#           -where "Value = '1'"
-# done
+# ============
+# convert geojsons
+# ============
+#chmod +x process_files_viewshed.sh
+#$gdaldocker  /mnt/process_files_viewshed.sh
+
 #mkdir -p ../data_process_anteas/data_process_antenas/geojson
 #cp -rf $outputGeojsonDir/*  ../data_process_anteas/data_process_antenas/geojson

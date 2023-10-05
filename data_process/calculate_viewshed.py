@@ -8,6 +8,12 @@ import numpy as np
 from glob import glob
 from itertools import chain
 from pathlib import Path
+import mercantile
+import geopandas as gpd
+from shapely.geometry import box, shape
+from shapely.ops import unary_union
+import rasterio as rio
+from rasterio.mask import mask
 
 gdal.AllRegister()
 gdal.UseExceptions()
@@ -112,87 +118,139 @@ def merge_vectors(s, c, glob_path, file_out, separate=False):
         print("merge_vectors", ex)
 
 
-def process_point(feature, pathname, observer_height, dem_input, radio_mts):
+def process_point(feature, folder_viewhead, observer_height, radio_mts, points):
+    results = []
+    ids_generated = []
     try:
+        features = [i for i in points if i.get("properties").get("tile") == feature.get("properties").get("tile")]
+        if not feature:
+            print("No features")
+            return
+        dem_input = feature.get("properties").get("dem_input")
         dataset = gdal.Open(dem_input, gdalconst.GA_ReadOnly)
         band = dataset.GetRasterBand(1)
 
-        num = feature.get("id")
-        coordinates = feature.get("geometry", {}).get("coordinates")
-        observer_x, observer_y = coordinates
-        tif_path = f"{pathname}/{num}__{observer_height}.tiff"
-        geojson_path = f"{pathname}/{num}__{observer_height}.geojson"
-        if Path(geojson_path).exists():
-            try:
-                tmp_data = json.load(open(geojson_path)).get("features")
-                if len(tmp_data) > 0:
-                    return True
-            except Exception as ex:
-                print(ex)
+        for feature_point in features:
+            num = feature_point.get("id")
+            ids_generated.append(num)
+            coordinates = feature_point.get("geometry", {}).get("coordinates")
+            observer_x, observer_y = coordinates
+            tif_path = f"{folder_viewhead}/{num}__{observer_height}.tiff"
+            geojson_path = f"{folder_viewhead}/{num}__{observer_height}.geojson"
 
-        gdal.ViewshedGenerate(
-            srcBand=band,
-            driverName="GTiff",
-            targetRasterName=tif_path,
-            creationOptions=[],
-            observerX=observer_x,
-            observerY=observer_y,
-            observerHeight=observer_height,
-            targetHeight=1.5,
-            visibleVal=1,
-            invisibleVal=2,
-            outOfRangeVal=0,
-            noDataVal=0,
-            dfCurvCoeff=0.13,
-            mode=1,
-            maxDistance=radio_mts,
-        )
-        # # vectorize
-        return vectorize_tif(tif_path, geojson_path)
+            if Path(geojson_path).exists():
+                try:
+                    tmp_data = json.load(open(geojson_path)).get("features")
+                    if len(tmp_data) > 0:
+                        results.append(True)
+                        continue
+                except Exception as ex:
+                    print(ex)
+
+            gdal.ViewshedGenerate(
+                srcBand=band,
+                driverName="GTiff",
+                targetRasterName=tif_path,
+                creationOptions=[],
+                observerX=observer_x,
+                observerY=observer_y,
+                observerHeight=observer_height,
+                targetHeight=1.5,
+                visibleVal=1,
+                invisibleVal=2,
+                outOfRangeVal=0,
+                noDataVal=0,
+                dfCurvCoeff=0.13,
+                mode=1,
+                maxDistance=radio_mts,
+            )
+            results.append(vectorize_tif(tif_path, geojson_path))
+
     except Exception as e:
         print("process_point", e)
-    return False
+    feature["properties"]["id_dem"] = ids_generated
+    return feature
+
+
+def get_tile(lng, lat, zoom_level):
+    tile = mercantile.tile(lng, lat, zoom_level)
+    return f"{tile.x}_{tile.y}_{tile.z}"
+
+
+def tile_parent(tile_str):
+    x, y, z = tile_str.split("_")
+    tile = mercantile.Tile(x=int(x), y=int(y), z=int(z))
+    neighbors = mercantile.neighbors(tile)
+    polygons = []
+    for neighbor in neighbors:
+        bbox = mercantile.bounds(neighbor)
+        polygon = box(bbox.west, bbox.south, bbox.east, bbox.north)
+        polygons.append(polygon)
+    bbox = unary_union(polygons).bounds
+    return box(*bbox)
+
+
+def clip_raster_tmp(feature, raster_path, folder_save):
+    try:
+        filename = feature.get("properties").get("tile")
+
+        shapely_geometry = shape(feature.get("geometry"))
+        geoms = [shapely_geometry.__geo_interface__]
+        with rio.open(raster_path) as src:
+            out_image, out_transform = mask(src, geoms, crop=True)
+            out_meta = src.meta.copy()
+            out_meta.update({"driver": "GTiff",
+                             "height": out_image.shape[1],
+                             "width": out_image.shape[2],
+                             "transform": out_transform})
+
+            with rio.open(f"{folder_save}/{filename}.tif", "w", **out_meta) as dest:
+                dest.write(out_image)
+        feature["properties"]["dem_input"] = f"{folder_save}/{filename}.tif"
+        return feature
+    except Exception as ex:
+        print("clip_raster_tmp", ex)
+        return feature
 
 
 def run(
-        dem_input, points, observer_height, folder_viewhead, output_geojson_file, radio_mts
+        dem_input, points, observer_height, folder_viewhead, output_geojson_bbox, radio_mts, zoom_group
 ):
-    features = json.load(open(points)).get("features")
-    # filtrer by categories
-    plus_1mb = [i for i in features if i.get("properties", {}).get("plus_1mb")]
-    up_1mb = [i for i in features if i.get("properties", {}).get("up_1mb")]
-    # create folders
-    sygnal = ["plus_1mb", "up_1mb"]
-    companies = ["Vi", "Te", "En", "Am"]
+    features_gpd = gpd.read_file(points)
+    features_gpd.crs = "EPSG:3857"
+    # reproject
+    features_gpd_4326 = features_gpd.to_crs(4326)
+    features_gpd_4326["tile"] = features_gpd_4326.centroid.apply(lambda x: get_tile(x.x, x.y, zoom_group))
+    # save points
+    features_gpd_3857 = features_gpd_4326.to_crs(3857)
 
-    folders = [f"{folder_viewhead}/{s}/{c}" for s in sygnal for c in companies]
-    for fd in folders:
-        os.makedirs(fd, exist_ok=True)
+    features_gpd_4326_clean = features_gpd_4326.drop_duplicates(subset=["tile"])
+    features_gpd_4326_clean["geometry"] = features_gpd_4326_clean["tile"].apply(tile_parent)
+    features_gpd_3857_bbox = features_gpd_4326_clean.to_crs(3857)
+    features_gpd_3857_bbox = features_gpd_3857_bbox[["tile", "geometry"]]
+    features_3857_bbox = json.loads(features_gpd_3857_bbox.to_json()).get("features")
+    features = json.loads(features_gpd_3857.to_json()).get("features")
+    # create tmp clips
+    folder_viewhead_tmp_tif = f"{folder_viewhead}_tmp_tif"
+    os.makedirs(folder_viewhead_tmp_tif, exist_ok=True)
+    os.makedirs(folder_viewhead, exist_ok=True)
 
-    ## gdal
-
-    for folder in folders:
-        s, c = folder.split("/")[-2:]
-        features_tmp = [*plus_1mb]
-        if s == "up_1mb":
-            features_tmp = [*up_1mb]
-        features_tmp_filter = [
-            i
-            for i in features_tmp
-            if i.get("properties", {}).get("emp") == c
-        ]
-
-        features_status = Parallel(n_jobs=-1)(
-            delayed(process_point)(
-                feature, folder, observer_height, dem_input, radio_mts
-            )
-            for feature in tqdm(
-                features_tmp_filter, desc=f"Evaluate {s}  for {c} - data"
-            )
+    # generate temporal tif
+    features_3857_bbox_clip = Parallel(n_jobs=-1)(
+        delayed(clip_raster_tmp)(
+            feature, dem_input, folder_viewhead_tmp_tif
         )
-        merge_vectors(s, c, folder, f"{folder_viewhead}/{s}__{c}.geojson")
-
-    merge_vectors(None, None, folder_viewhead, output_geojson_file, True)
+        for feature in tqdm(
+            features_3857_bbox, desc="Generate temporal raster"
+        )
+    )
+    # calculate viewshed
+    Parallel(n_jobs=-1)(
+        delayed(process_point)(feature, folder_viewhead, observer_height, radio_mts, features)
+        for feature in tqdm(
+            features_3857_bbox_clip, desc="Process points"
+        )
+    )
 
 
 @click.command(short_help="Create viewshead ")
@@ -222,7 +280,7 @@ def run(
     type=str,
 )
 @click.option(
-    "--output_geojson_file",
+    "--output_geojson_bbox",
     help="output vectorize features",
     required=True,
     type=str,
@@ -234,17 +292,24 @@ def run(
     default=10000,
     type=int,
 )
-
+@click.option(
+    "--zoom_group",
+    help="zoom for clip",
+    required=False,
+    default=12,
+    type=int,
+)
 def main(
-        dem_input, points, observer_height, folder_viewhead, output_geojson_file, radio_mts
+        dem_input, points, observer_height, folder_viewhead, output_geojson_bbox, radio_mts, zoom_group
 ):
     run(
         dem_input,
         points,
         observer_height,
         folder_viewhead,
-        output_geojson_file,
+        output_geojson_bbox,
         radio_mts,
+        zoom_group
     )
 
 
