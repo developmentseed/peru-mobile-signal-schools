@@ -128,7 +128,6 @@ def process_point(feature, folder_viewhead, observer_height, radio_mts, points):
             return
         dem_input = feature.get("properties").get("dem_input")
         dataset = gdal.Open(dem_input, gdalconst.GA_ReadOnly)
-        band = dataset.GetRasterBand(1)
 
         for feature_point in features:
             num = feature_point.get("id")
@@ -140,12 +139,15 @@ def process_point(feature, folder_viewhead, observer_height, radio_mts, points):
 
             if Path(geojson_path).exists():
                 try:
-                    tmp_data = json.load(open(geojson_path)).get("features")
-                    if len(tmp_data) > 0:
-                        results.append(True)
-                        continue
+                    with open(geojson_path, 'r') as file:
+                        tmp_data = json.load(file).get("features", [])
+                        if tmp_data:
+                            results.append(True)
+                            continue
                 except Exception as ex:
                     print(ex)
+
+            band = dataset.GetRasterBand(1)
 
             gdal.ViewshedGenerate(
                 srcBand=band,
@@ -168,7 +170,7 @@ def process_point(feature, folder_viewhead, observer_height, radio_mts, points):
 
     except Exception as e:
         print("process_point", e)
-    feature["properties"]["id_dem"] = ids_generated
+    feature["properties"]["id_dem"] = str(ids_generated)
     return feature
 
 
@@ -245,12 +247,16 @@ def run(
         )
     )
     # calculate viewshed
-    Parallel(n_jobs=-1)(
+    features_3857_bbox_new = Parallel(n_jobs=-1)(
         delayed(process_point)(feature, folder_viewhead, observer_height, radio_mts, features)
         for feature in tqdm(
             features_3857_bbox_clip, desc="Process points"
         )
     )
+    df = gpd.GeoDataFrame.from_features(features_3857_bbox_new)
+    df.crs = "EPSG:4326"
+    df = df.to_crs(3857)
+    df.to_file(output_geojson_bbox, driver="GeoJSON")
 
 
 @click.command(short_help="Create viewshead ")
