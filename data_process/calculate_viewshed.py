@@ -123,14 +123,14 @@ def process_point(feature, folder_viewhead, observer_height, radio_mts, points):
     ids_generated = []
     try:
         features = [i for i in points if i.get("properties").get("tile") == feature.get("properties").get("tile")]
-        if not feature:
+        if not features:
             print("No features")
-            return
+            return feature
         dem_input = feature.get("properties").get("dem_input")
         dataset = gdal.Open(dem_input, gdalconst.GA_ReadOnly)
 
         for feature_point in features:
-            num = feature_point.get("id")
+            num = feature_point.get("properties").get("idx")
             ids_generated.append(num)
             coordinates = feature_point.get("geometry", {}).get("coordinates")
             observer_x, observer_y = coordinates
@@ -225,13 +225,14 @@ def run(
     features_gpd_4326["tile"] = features_gpd_4326.centroid.apply(lambda x: get_tile(x.x, x.y, zoom_group))
     # save points
     features_gpd_3857 = features_gpd_4326.to_crs(3857)
+    features = json.loads(features_gpd_3857.to_json()).get("features")
 
     features_gpd_4326_clean = features_gpd_4326.drop_duplicates(subset=["tile"])
     features_gpd_4326_clean["geometry"] = features_gpd_4326_clean["tile"].apply(tile_parent)
     features_gpd_3857_bbox = features_gpd_4326_clean.to_crs(3857)
     features_gpd_3857_bbox = features_gpd_3857_bbox[["tile", "geometry"]]
     features_3857_bbox = json.loads(features_gpd_3857_bbox.to_json()).get("features")
-    features = json.loads(features_gpd_3857.to_json()).get("features")
+    features_gpd_3857_bbox.to_file("data/features_gpd_3857_bbox.geojson", driver="GeoJSON")
     # create tmp clips
     folder_viewhead_tmp_tif = f"{folder_viewhead}_tmp_tif"
     os.makedirs(folder_viewhead_tmp_tif, exist_ok=True)
@@ -254,9 +255,8 @@ def run(
         )
     )
     df = gpd.GeoDataFrame.from_features(features_3857_bbox_new)
-    df.crs = "EPSG:4326"
-    df = df.to_crs(3857)
-    df.to_file(output_geojson_bbox, driver="GeoJSON")
+    df.crs = "EPSG:3857"
+    df.to_crs(4326).to_file(output_geojson_bbox, driver="GeoJSON")
 
 
 @click.command(short_help="Create viewshead ")

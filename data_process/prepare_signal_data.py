@@ -17,7 +17,7 @@ def process_cluster(key, features):
 
     for i in features:
         geom = shape(i.get("geometry")).buffer(5)
-        id = i.get("id")
+        id = i.get("idx")
 
         if id in id_used:
             continue
@@ -25,7 +25,7 @@ def process_cluster(key, features):
 
         for j in features:
             geom_j = shape(j.get("geometry")).buffer(5)
-            id_j = j.get("id")
+            id_j = j.get("idx")
             if id_j == id or id_j in id_used:
                 continue
 
@@ -63,9 +63,10 @@ def run(csv_path, output_file, output_app_file):
     gdf["tile"] = gdf.apply(get_tile, axis=1)
     gdf["up_1mb"] = gdf["HASTA_1_MBPS"]
     gdf["plus_1mb"] = gdf["MÁS_DE_1_MBPS"]
+    gdf["idx"] = gdf["NUM"]
 
     gdf = gdf[
-        ["emp", "tile", "2G", "3G", "4G", "5G", "up_1mb", "plus_1mb",
+        ["idx", "emp", "tile", "2G", "3G", "4G", "5G", "up_1mb", "plus_1mb",
          "geometry"]]
 
     gdf = gdf[(gdf["up_1mb"] == "1") | (gdf["plus_1mb"] == "1")]
@@ -85,11 +86,8 @@ def run(csv_path, output_file, output_app_file):
         delayed(process_cluster)(k, v)
         for k, v in tqdm(group_tiles.items(), desc=f"merge features  ")
     )
-    new_features = list(chain.from_iterable(list(new_features_2d)))
-    json.dump(
-        {"type": "FeatureCollection", "features": new_features}, open(output_file, "w")
-    )
     new_features_app = list(chain.from_iterable(list(new_features_2d)))
+
     for i in new_features_app:
         new_element = dict(i.get("properties"))
         features_intersec = list(i.get("properties", {}).get("features_intersec", []))
@@ -98,11 +96,14 @@ def run(csv_path, output_file, output_app_file):
         features_intersec.append(dict(new_element))
         new_props = {
             "features_intersec": features_intersec,
-            "id": i.get("id")
+            "idx": new_element.get("idx")
         }
         i["properties"] = new_props
     new_gdf = gpd.GeoDataFrame.from_features(new_features_app)
     new_gdf.crs = "EPSG:3857"
+    json.dump(
+        {"type": "FeatureCollection", "features": json.loads(new_gdf.to_json()).get("features")}, open(output_file, "w")
+    )
     new_gdf = new_gdf.to_crs(4326)
     geojson_output = json.loads(new_gdf.to_json()).get("features")
     json.dump(
