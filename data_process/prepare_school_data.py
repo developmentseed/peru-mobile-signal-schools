@@ -8,7 +8,7 @@ from joblib import Parallel, delayed
 import geopandas as gpd
 import gzip
 
-PERU_ADM0_LINK = "https://geodata.ucdavis.edu/gadm/gadm4.1/json/gadm41_PER_0.json"
+PERU_ADM0_LINK = "https://github.com/wmgeolab/geoBoundaries/raw/main/releaseData/gbHumanitarian/PER/ADM0/geoBoundaries-PER-ADM0_simplified.geojson"
 KEEP_TAGS = [
     "addr:district",
     "addr:province",
