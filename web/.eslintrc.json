@@ -1,0 +1,26 @@
+{
+  "extends": ["react-app", "plugin:prettier/recommended", "plugin:import/errors", "plugin:import/warnings"],
+  "plugins": ["react", "prettier", "import"],
+  "rules": {
+    "prettier/prettier": [
+      1,
+      {
+        "endOfLine": "auto",
+        "semi": true,
+        "singleQuote": false,
+        "printWidth": 120
+      }
+    ],
+    "semi": [1, "always"],
+    "import/order": [
+      1,
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }
+    ],
+    "import/first": [1, "absolute-first"],
+    "import/newline-after-import": 1,
+    "import/no-duplicates": 1
+  }
+}
