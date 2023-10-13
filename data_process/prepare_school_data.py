@@ -77,11 +77,7 @@ def run(boundary_path, features_out):
     new_features = [i for i in new_features if i]
     # sage geojson
     json.dump(fc(new_features), open(features_out, "w"))
-    # save gzip
-    json_str = json.dumps(fc(new_features))
-    json_bytes = json_str.encode('utf-8')
-    with gzip.GzipFile(features_out.replace(".geojson", ".geojson.gz"), 'w') as f_out:
-        f_out.write(json_bytes)
+
 
 
 @click.command(short_help="Download overpass")
