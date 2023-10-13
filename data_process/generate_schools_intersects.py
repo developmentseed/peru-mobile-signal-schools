@@ -46,7 +46,12 @@ def run(schools_path, antennas_path, schools_out_path, file_geojson_path):
     new_antenas = pd.concat(new_antenas_list, ignore_index=True)
     invalid_geoms = new_antenas[new_antenas.geometry.is_valid == False]
     if not invalid_geoms.empty:
+        invalid_geoms_ids = invalid_geoms["idx"].unique().tolist()
         new_antenas['geometry'] = new_antenas.geometry.apply(lambda x: x if x.is_valid else x.buffer(0))
+        new_antenas_filter = new_antenas[new_antenas["idx"].isin(invalid_geoms_ids)]
+        for idx_g, df_g in new_antenas_filter.groupby("idx"):
+            df_g = df_g[["idx", "geometry"]]
+            df_g.to_file(f"{file_geojson_path}/{idx_g}.geojson", driver='GeoJSON')
         print("fix some geometries")
 
     intersections = gpd.sjoin(df_schools, new_antenas, op='intersects', how='left')
