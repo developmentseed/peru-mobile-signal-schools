@@ -2,9 +2,14 @@ export const TEL_NAMES = {
   Vi: "Bitel Perú",
   Te: "Telefónica",
   Am: "América Móvil",
-  En: "Entel Perú ",
+  En: "Entel Perú",
 };
-
+export const TEL_NAMES_ICO = {
+  Vi: "bitel.png",
+  Te: "movistar.png",
+  Am: "claro.png",
+  En: "entel.png",
+};
 const companyColors = {
   Vi: "rgba(76, 175, 80, 0.7)",
   Te: "rgba(33, 150, 243, 0.7)",
@@ -18,6 +23,12 @@ const companyBorderColors = {
   Am: "#FF9800",
   En: "#26C6DA",
 };
+
+export const MAX_ZOOM_HEADMAP = 10;
+export const MIN_ZOOM_HEADMAP = 4;
+export const MIN_ZOOM_SCHOOL = 9;
+export const MIN_ZOOM_SIGNAL = 9;
+
 // radar chart - antenas
 export const antenasRadarData = {
   labels: ["2G", "3G", "4G", "5G", "Hasta 1Mbps", "Más 1Mbps"],

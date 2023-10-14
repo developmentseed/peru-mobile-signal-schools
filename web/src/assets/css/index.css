@@ -212,7 +212,6 @@ label {
 }
 
 .mapboxgl-popup {
-  max-width: 300px;
   font-family: "Arial", sans-serif;
   color: #333;
   border-radius: 10px;
@@ -261,4 +260,36 @@ p a:visited {
 
 p a:active {
   color: #eee;
+}
+/* table styles */
+.custompopup {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.custompopup th,
+.custompopup td {
+  border: 1px solid #f0f0f0;
+  text-align: center;
+  padding: 3px;
+}
+.custompopup-left th,
+.custompopup-left td {
+  text-align: left;
+}
+
+.td-left {
+  text-align: left;
+}
+#custompopup td.check {
+  color: green;
+}
+
+#custompopup td.cross {
+  color: red;
+}
+
+.center {
+  text-align: center;
 }

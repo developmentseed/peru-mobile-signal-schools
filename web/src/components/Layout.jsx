@@ -2,8 +2,6 @@ import React from "react";
 import { Container } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-import Navbar from "./Navbar.jsx";
-
 const FullHeightContainer = styled(Container)({
   minHeight: "100vh",
   display: "flex",
