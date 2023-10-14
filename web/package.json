@@ -3,13 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@fontsource/roboto": "^5.0.8",
+    "@mui/icons-material": "^5.14.13",
+    "@mui/material": "^5.14.13",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@turf/buffer": "^6.5.0",
     "@turf/turf": "^6.5.0",
+    "axios": "^1.5.1",
     "chart.js": "^4.4.0",
     "mapbox-gl": "^2.15.0",
+    "pako": "^2.1.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -47,6 +54,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "devDependencies": {
     "eslint": "^8.48.0",

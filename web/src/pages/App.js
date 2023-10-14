@@ -1,20 +1,61 @@
 import Map, { Source, Layer, NavigationControl, ScaleControl, Popup } from "react-map-gl";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 
 import { TEL_NAMES } from "../utils/constants";
 import OptionsPanel from "../components/OptionsPanel.jsx";
 import DashboardPanel from "../components/DashboardPanel.jsx";
 import AboutPanel from "../components/AboutPanel.jsx";
 
+import axios from "axios";
+import pako from "pako";
+import { calculate_signal_index } from "../utils/utils";
 const API_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const GEOJSON_URL = process.env.REACT_APP_GEOJSON_URL;
+
 const App = () => {
-  const [selectedCompanies, setSelectedCompanies] = React.useState(["Vi", "Te", "Am", "En"]);
+  const [selectedCompanies, setSelectedCompanies] = React.useState(["Vi", "Te", "Am", "En", "other"]);
+  const [dataSchool, setDataSchool] = useState(null);
+  const [dataAntennas, setDataAntennas] = useState(null);
+
   const mapRef = useRef(null);
   const [polygonSygnal, setPolygonSygnal] = useState(null);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("/features_school_intersects.geojson.gz", {
+          responseType: "arraybuffer",
+        });
+
+        const decompressedDataSchool = pako.inflate(response.data, { to: "string" });
+        let jsonDataSchool = JSON.parse(decompressedDataSchool);
+        // calculate signal_index
+        jsonDataSchool = {
+          ...jsonDataSchool,
+          features: jsonDataSchool.features.map((i) => {
+            i.properties.signal_index = calculate_signal_index(i.properties.ant_data);
+
+            return i;
+          }),
+        };
+        setDataSchool(jsonDataSchool);
+
+        const responseAntennas = await axios.get("/cobertura_app_4326.geojson.gz", {
+          responseType: "arraybuffer",
+        });
+
+        const decompressedDataAntennas = pako.inflate(responseAntennas.data, { to: "string" });
+        const jsonDataAntennas = JSON.parse(decompressedDataAntennas);
+        setDataAntennas(jsonDataAntennas);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchData();
+  }, []);
   const toggleComponent = (componentName) => {
     if (activeComponent === componentName) {
       setActiveComponent(null);
@@ -99,12 +140,15 @@ const App = () => {
         });
     });
   };
+
   const handleFilter = (filter) => {
     setSelectedCompanies(filter);
   };
+
   const handleChangePolygonSygnal = (data = null) => {
     setPolygonSygnal(data);
   };
+
   return (
     <div id="map-container">
       <Map
@@ -113,8 +157,8 @@ const App = () => {
         initialViewState={{
           latitude: -13.53774,
           longitude: -74.12402,
-          zoom: 10,
-          pitch: 55,
+          zoom: 7.5,
+          pitch: 25,
           bearing: 15,
         }}
         scrollZoom={true}
@@ -123,53 +167,100 @@ const App = () => {
         doubleClickZoom={true}
         touchZoomRotate={true}
         touchPitch={true}
-        minZoom={8}
+        minZoom={5}
         maxZoom={16}
         maxPitch={85}
         minPitch={5}
-        mapStyle="mapbox://styles/junica123/cllqtzwxt00ng01p96i396fth/draft"
+        mapStyle="mapbox://styles/devseed/clnotjmz0008s01pf5whsc05s"
         mapboxAccessToken={API_TOKEN}
         onClick={handleMapClick}
         onMouseMove={handleMapHover}
         terrain={{ source: "mapbox-dem", exaggeration: 1.5 }}
       >
-        <Source id="antena-points" type="vector" url="mapbox://junica123.ayacucho_antenas">
-          <Layer
-            id="antenas-layer"
-            type="symbol"
-            source="antena-points"
-            source-layer="ayacucho_antenas"
-            layout={{
-              "icon-image": [
-                "match",
-                ["get", "EMP_OPER_TRUNC"],
-                "Vi",
-                "bitel",
-                "Te",
-                "movistar",
-                "Am",
-                "claro",
-                "En",
-                "entel",
-                "antena",
-              ],
-              "icon-size": 0.2,
-            }}
-            filter={
-              selectedCompanies.length
-                ? [
-                    "all",
-                    ["in", "EMP_OPER_TRUNC", ...selectedCompanies],
-                    ["any", ["==", "HASTA_1_MBPS", true], ["==", "M�S_DE_1_MBPS", true]],
-                  ]
-                : [
-                    "all",
-                    ["==", "EMP_OPER_TRUNC", "123123123"],
-                    ["any", ["==", "HASTA_1_MBPS", true], ["==", "M�S_DE_1_MBPS", true]],
-                  ]
-            }
-          />
-        </Source>
+        {dataAntennas ? (
+          <Source id="antena-points" type="geojson" data={dataAntennas}>
+            <Layer
+              id="antenas-layer"
+              type="symbol"
+              layout={{
+                "icon-image": [
+                  "match",
+                  ["get", "ico"],
+                  "Vi",
+                  "bitel",
+                  "Te",
+                  "movistar",
+                  "Am",
+                  "claro",
+                  "En",
+                  "entel",
+                  "antena",
+                ],
+                "icon-size": ["interpolate", ["linear"], ["zoom"], 10, 0.25, 16, 0.4],
+              }}
+              filter={
+                selectedCompanies.length
+                  ? ["all", ["in", "ico", ...selectedCompanies]]
+                  : ["all", ["==", "ico", "123123123"]]
+              }
+              maxzoom={18}
+              minzoom={10}
+            />
+          </Source>
+        ) : null}
+
+        {dataSchool && (
+          <Source id="polygonSygnal" type="geojson" data={dataSchool}>
+            <Layer
+              id="schools-layer"
+              type="circle"
+              paint={{
+                "circle-radius": ["interpolate", ["linear"], ["zoom"], 9, 2, 15, 7],
+                "circle-color": [
+                  "case",
+                  ["==", ["get", "signal_index"], 0],
+                  "#c70505",
+                  ["<=", ["get", "signal_index"], 45],
+                  "#ffd1a1",
+                  ["<=", ["get", "signal_index"], 172],
+                  "#FFFFB3",
+                  "#A8E6CF",
+                ],
+              }}
+              maxzoom={18}
+              minzoom={9}
+            />
+            <Layer
+              id="schools-heatmap"
+              type="heatmap"
+              maxzoom={10}
+              minzoom={4}
+              paint={{
+                "heatmap-weight": ["interpolate", ["linear"], ["get", "signal_index"], 0, 0, 9, 1],
+                "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 4, 0, 9, 1],
+                "heatmap-color": [
+                  "interpolate",
+                  ["linear"],
+                  ["heatmap-density"],
+                  0,
+                  "rgba(199, 5, 5, 0)",
+                  0.1,
+                  "#c70505",
+                  0.3,
+                  "#ffd1a1",
+                  0.5,
+                  "#FFFFB3",
+                  0.7,
+                  "#d9ea98",
+                  1,
+                  "#A8E6CF",
+                ],
+                "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 4, 2, 9, 20],
+                "heatmap-opacity": ["interpolate", ["linear"], ["zoom"], 4, 1, 9, 0],
+              }}
+            />
+          </Source>
+        )}
         {polygonSygnal && (
           <Source id="polygonSygnal" type="geojson" data={polygonSygnal}>
             <Layer
