@@ -58,7 +58,7 @@ $gdaldocker python3 calculate_viewshed.py \
 # ============
 # convert geojsons
 # ============
-#chmod +x process_files_viewshed.sh
+chmod +x process_files_viewshed.sh
 $gdaldocker  /mnt/process_files_viewshed.sh
 
 #mkdir -p ../data_process_anteas/data_process_antenas/geojson

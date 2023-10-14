@@ -8,6 +8,8 @@ import geopandas as gpd
 from shapely.geometry import shape
 import csv
 import mercantile
+import gzip
+from copy import deepcopy
 
 
 def process_cluster(key, features):
@@ -17,23 +19,24 @@ def process_cluster(key, features):
 
     for i in features:
         geom = shape(i.get("geometry")).buffer(5)
-        id = i.get("idx")
+        id = i.get("properties").get("idx")
 
         if id in id_used:
             continue
         features_intersec = []
 
         for j in features:
-            geom_j = shape(j.get("geometry")).buffer(5)
-            id_j = j.get("idx")
+            id_j = j.get("properties").get("idx")
             if id_j == id or id_j in id_used:
                 continue
 
-            if geom.intersects(geom_j):
-                features_intersec.append(dict(j.get("properties", {})))
-                id_used.add(id_j)
+            geom_j = shape(j.get("geometry")).buffer(5)
 
-        i["properties"]["features_intersec"] = features_intersec
+            if geom.intersects(geom_j):
+                features_intersec.append(deepcopy(j.get("properties", {})))
+                id_used.add(id_j)
+        if features_intersec:
+            i["properties"]["features_intersec"] = features_intersec
 
         new_features.append(i)
         id_used.add(id)
@@ -58,6 +61,7 @@ def run(csv_path, output_file, output_app_file):
         df, geometry=gpd.points_from_xy(df["LONGITUD"], df["LATITUD"])
     )
     gdf.crs = "EPSG:4326"
+    print("initial", gdf.shape[0])
     # reduce columna
     gdf["emp"] = gdf["EMPRESA_OPERADORA"].apply(lambda x: str(x)[:2])
     gdf["tile"] = gdf.apply(get_tile, axis=1)
@@ -70,6 +74,7 @@ def run(csv_path, output_file, output_app_file):
          "geometry"]]
 
     gdf = gdf[(gdf["up_1mb"] == "1") | (gdf["plus_1mb"] == "1")]
+    print("filter", gdf.shape[0])
 
     gdf_mercator = gdf.to_crs(3857)
 
@@ -94,21 +99,33 @@ def run(csv_path, output_file, output_app_file):
         if new_element.get("features_intersec"):
             del new_element["features_intersec"]
         features_intersec.append(dict(new_element))
+        # clean features_intersec
+
         new_props = {
             "features_intersec": features_intersec,
-            "idx": new_element.get("idx")
+            "idx": new_element.get("idx"),
+            "size": len(features_intersec),
+            "ico": "other"
         }
+        if len(features_intersec) == 1:
+            new_props["ico"] = features_intersec[0]["emp"]
+
         i["properties"] = new_props
+
     new_gdf = gpd.GeoDataFrame.from_features(new_features_app)
     new_gdf.crs = "EPSG:3857"
     json.dump(
         {"type": "FeatureCollection", "features": json.loads(new_gdf.to_json()).get("features")}, open(output_file, "w")
     )
     new_gdf = new_gdf.to_crs(4326)
-    geojson_output = json.loads(new_gdf.to_json()).get("features")
-    json.dump(
-        {"type": "FeatureCollection", "features": geojson_output}, open(output_app_file, "w")
-    )
+    geojson_output = json.loads(new_gdf.to_json())
+    json.dump(geojson_output, open(output_app_file, "w"))
+
+    # save gzip
+    json_str = json.dumps(geojson_output)
+    json_bytes = json_str.encode('utf-8')
+    with gzip.GzipFile(output_app_file.replace(".geojson", ".geojson.gz"), 'w') as f_out:
+        f_out.write(json_bytes)
 
 
 @click.command(short_help="Process antennas csv")
