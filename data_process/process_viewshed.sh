@@ -48,17 +48,17 @@ gdaldocker="docker run --rm -v $PWD:/mnt/ -it developmentseed/peru-mobile"
 # calculate viewshed
 # ============
 
-$gdaldocker python3 calculate_viewshed.py \
-  --dem_input=${outputDir}/peru_dem_3857.tif \
-  --points=${outputDir}/cobertura_3857.geojson \
-  --folder_viewhead=${dataDir}/viewshed \
-  --observer_height=30 \
-  --output_geojson_bbox=${outputDir}/vector_viewshed_bbox_4326.geojson
+#$gdaldocker python3 calculate_viewshed.py \
+#  --dem_input=${outputDir}/peru_dem_3857.tif \
+#  --points=${outputDir}/cobertura_3857.geojson \
+#  --folder_viewhead=${dataDir}/viewshed \
+#  --observer_height=30 \
+#  --output_geojson_bbox=${outputDir}/vector_viewshed_bbox_4326.geojson
 
 # ============
 # convert geojsons
 # ============
-chmod +x process_files_viewshed.sh
+#chmod +x process_files_viewshed.sh
 $gdaldocker  /mnt/process_files_viewshed.sh
 
 #mkdir -p ../data_process_anteas/data_process_antenas/geojson
