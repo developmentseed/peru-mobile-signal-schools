@@ -23,7 +23,7 @@ def read_viewhead(feature, file_geojson_path):
         gdf["idx"] = feature.get('properties').get('idx')
         return gdf.copy()
     except Exception as ex:
-        print(ex)
+        print("read_viewhead", ex, feature.get('properties').get('idx'))
         return gpd.GeoDataFrame()
 
 
@@ -86,6 +86,7 @@ def run(schools_path, antennas_path, schools_out_path, file_geojson_path):
     json_bytes = json_str.encode('utf-8')
     with gzip.GzipFile(schools_out_path.replace(".geojson", ".geojson.gz"), 'w') as f_out:
         f_out.write(json_bytes)
+        print("save gzip")
 
 
 @click.command(short_help="Process schools intersects ")
