@@ -26,12 +26,20 @@ const CustomPopup = ({ hoverInfo }) => {
   } catch (error) {
     console.error(error);
   }
+  const BuildRow = ({ k, v }) =>
+    v ? (
+      <tr className="fz10">
+        <td>
+          <b>{k}</b>
+        </td>
+        <td>{v}</td>
+      </tr>
+    ) : null;
 
   if (id === "schools-layer") {
-    console.log(properties);
     return (
-      <Popup longitude={lng} latitude={lat} offset={[0, -10]} maxWidth="320" closeButton={false}>
-        <div>
+      <Popup longitude={lng} latitude={lat} offset={[0, -10]} closeButton={false}>
+        <div id="popupWraper">
           <table className="custompopup">
             <thead>
               <tr>
@@ -41,45 +49,19 @@ const CustomPopup = ({ hoverInfo }) => {
               </tr>
             </thead>
             <tbody className=" custompopup-left">
-              <tr>
-                <td>
-                  <b>Province</b>
-                </td>
-                <td>{properties.province || "--"}</td>
-              </tr>
-              <tr>
-                <td>
-                  <b>District</b>
-                </td>
-                <td>{properties.district || "--"}</td>
-              </tr>
-
-              <tr>
-                <td>
-                  <b>Subdistrict</b>
-                </td>
-                <td>{properties.subdistrict || "--"}</td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Full Address</b>
-                </td>
-                <td>{properties.full || "--"}</td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Source</b>
-                </td>
-                <td>{properties.source || "--"}</td>
-              </tr>
+              <BuildRow k="Province" v={properties.province} />
+              <BuildRow k="District" v={properties.district} />
+              <BuildRow k="Sub District" v={properties.subdistrict} />
+              <BuildRow k="Full Address" v={properties.full} />
+              <BuildRow k="Source" v={properties.source} />
             </tbody>
           </table>
-          <table className="custompopup">
+          <table className="custompopup mt10">
             <thead>
               <tr>
                 <th colSpan={7}>Data antennas</th>
               </tr>
-              <tr>
+              <tr className="fz10">
                 <th></th>
                 <th>Up 1mb</th>
                 <th>Plus 1mb</th>
@@ -104,7 +86,7 @@ const CustomPopup = ({ hoverInfo }) => {
             <tr>
               <th colSpan={7}>Data antennas</th>
             </tr>
-            <tr>
+            <tr className="fz10">
               <th></th>
               <th>Up 1mb</th>
               <th>Plus 1mb</th>

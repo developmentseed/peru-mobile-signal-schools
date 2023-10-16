@@ -262,17 +262,22 @@ p a:active {
   color: #eee;
 }
 /* table styles */
+#popupWraper {
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: auto;
+  
+}
 .custompopup {
-  width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  width: 100%;
 }
 
 .custompopup th,
 .custompopup td {
   border: 1px solid #f0f0f0;
   text-align: center;
-  padding: 3px;
+  padding: 2px;
 }
 .custompopup-left th,
 .custompopup-left td {
@@ -282,14 +287,20 @@ p a:active {
 .td-left {
   text-align: left;
 }
-#custompopup td.check {
+.custompopup td.check {
   color: green;
 }
 
-#custompopup td.cross {
+.custompopup td.cross {
   color: red;
 }
 
 .center {
   text-align: center;
+}
+.mt10{
+  padding-top: 10px;
+}
+.fz10{
+  font-size: 10px;
 }
