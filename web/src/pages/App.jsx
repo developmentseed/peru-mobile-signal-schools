@@ -13,7 +13,7 @@ import { MAX_ZOOM_HEADMAP, MIN_ZOOM_HEADMAP, MIN_ZOOM_SCHOOL, MIN_ZOOM_SIGNAL } 
 
 const API_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const GEOJSON_URL = process.env.REACT_APP_GEOJSON_URL;
-
+const LAYERS_ACTION = ["schools-layer", "antenas-layer"];
 const App = () => {
   const [selectedCompanies, setSelectedCompanies] = React.useState(["Vi", "Te", "Am", "En", "other"]);
   const [dataSchool, setDataSchool] = useState(null);
@@ -69,12 +69,14 @@ const App = () => {
 
   const handleMapClick = (event) => {
     const features = mapRef.current.queryRenderedFeatures(event.point);
-    if (!features.length) return;
-    const featuresSchool = features.filter((i) => i.layer && i.layer.id === "schools-layer");
-    const featuresAntenas = features.filter((i) => i.layer && i.layer.id === "antenas-layer");
-    if (featuresAntenas.length) {
-      const antena = featuresAntenas[0];
-      fetch(`${GEOJSON_URL}/${antena.properties["idx"]}.geojson`)
+    const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
+    handleChangePolygonSignal();
+
+    if (!new_features.length) return;
+    const feature = { ...new_features[0], lngLat: event.lngLat };
+
+    if (feature.layer.id === "antenas-layer") {
+      fetch(`${GEOJSON_URL}/${feature.properties["idx"]}.geojson`)
         .then((response) => response.json())
         .then((data) => {
           handleChangePolygonSignal(data);
@@ -83,8 +85,6 @@ const App = () => {
           console.error(err);
           handleChangePolygonSignal();
         });
-    } else if (featuresSchool.length) {
-      handleChangePolygonSignal();
     } else {
       handleChangePolygonSignal();
     }
@@ -93,7 +93,7 @@ const App = () => {
   const handleMapHover = (event) => {
     try {
       const features = mapRef.current.queryRenderedFeatures(event.point);
-      const new_features = features.filter((i) => i.layer && ["schools-layer", "antenas-layer"].includes(i.layer.id));
+      const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
       if (new_features.length) {
         const i = { ...new_features[0], lngLat: event.lngLat };
         setHoverInfo({ ...i });
