@@ -2,12 +2,13 @@ import axios from "axios";
 import pako from "pako";
 import StaticMap, { Source, Layer, NavigationControl, ScaleControl } from "react-map-gl";
 import React, { useRef, useState, useEffect } from "react";
-import DeckGL, {   ArcLayer } from "deck.gl";
+import DeckGL, { ArcLayer } from "deck.gl";
 import { MapContext } from "react-map-gl/dist/esm/components/map.js";
 import OptionsPanel from "../components/OptionsPanel.jsx";
 import DashboardPanel from "../components/DashboardPanel.jsx";
 import AboutPanel from "../components/AboutPanel.jsx";
 import CustomPopup from "../components/CustomPopup.jsx";
+import DetailPoint from "../components/DetailPoint.jsx";
 import { calculate_signal_index } from "../utils/utils.js";
 import { layoutAntena, paintSchool, paintHeatmap, paintPolygonSignal } from "../utils/styles_map.js";
 import { MAX_ZOOM_HEADMAP, MIN_ZOOM_HEADMAP, MIN_ZOOM_SCHOOL, MIN_ZOOM_SIGNAL } from "../utils/constants.js";
@@ -91,7 +92,9 @@ const App = () => {
       if (pickedInfo && pickedInfo.object) {
         console.log(" DeckGL :", pickedInfo.object);
       }
-    } catch (error) {console.error(error)}
+    } catch (error) {
+      console.error(error);
+    }
 
     const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
 
@@ -119,14 +122,13 @@ const App = () => {
 
   const handleMapHover = (event) => {
     try {
-      console.log(event)
+      console.log(event);
       const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
       const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
       if (new_features.length) {
         const i = { ...new_features[0], lngLat: event.coordinate };
         setHoverInfo({ ...i });
       } else {
-        setHoverInfo(null);
       }
     } catch (error) {
       console.error(error);
@@ -240,7 +242,6 @@ const App = () => {
               <Layer id="polygon-signal-layer" type="fill" paint={paintPolygonSignal} maxzoom={18} />
             </Source>
           )}
-          <CustomPopup hoverInfo={hoverInfo} />
           <Source
             id="mapbox-dem"
             type="raster-dem"
@@ -263,6 +264,7 @@ const App = () => {
           isActive={activeComponent === "DashboardPanel"}
           toggle={() => toggleComponent("DashboardPanel")}
         />
+        <DetailPoint hoverInfo={hoverInfo} />
       </div>
     </div>
   );
