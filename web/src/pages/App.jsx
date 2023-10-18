@@ -1,8 +1,9 @@
 import axios from "axios";
 import pako from "pako";
-import Map, { Source, Layer, NavigationControl, ScaleControl } from "react-map-gl";
+import StaticMap, { Source, Layer, NavigationControl, ScaleControl } from "react-map-gl";
 import React, { useRef, useState, useEffect } from "react";
-
+import DeckGL, {   ArcLayer } from "deck.gl";
+import { MapContext } from "react-map-gl/dist/esm/components/map.js";
 import OptionsPanel from "../components/OptionsPanel.jsx";
 import DashboardPanel from "../components/DashboardPanel.jsx";
 import AboutPanel from "../components/AboutPanel.jsx";
@@ -14,12 +15,23 @@ import { MAX_ZOOM_HEADMAP, MIN_ZOOM_HEADMAP, MIN_ZOOM_SCHOOL, MIN_ZOOM_SIGNAL } 
 const API_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const GEOJSON_URL = process.env.REACT_APP_GEOJSON_URL;
 const LAYERS_ACTION = ["schools-layer", "antenas-layer"];
+
+const initialViewState = {
+  latitude: -13.53774,
+  longitude: -74.12402,
+  zoom: 8.5,
+  pitch: 25,
+  bearing: 15,
+  maxPitch: 89,
+};
+
 const App = () => {
   const [selectedCompanies, setSelectedCompanies] = React.useState(["Vi", "Te", "Am", "En", "other"]);
   const [dataSchool, setDataSchool] = useState(null);
   const [dataAntennas, setDataAntennas] = useState(null);
 
   const mapRef = useRef(null);
+  const deckRef = useRef(null);
   const [polygonSignal, setPolygonSignal] = useState(null);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
@@ -68,8 +80,23 @@ const App = () => {
   };
 
   const handleMapClick = (event) => {
-    const features = mapRef.current.queryRenderedFeatures(event.point);
+    try {
+      const pickedInfo = deckRef.current.pickObject({
+        x: event.x,
+        y: event.y,
+        radius: 5,
+        layerIds: ["arcs"],
+      });
+
+      if (pickedInfo && pickedInfo.object) {
+        console.log(" DeckGL :", pickedInfo.object);
+      }
+    } catch (error) {console.error(error)}
+
+    const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
+
     const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
+    console.log(new_features, [event.x, event.y], event);
     handleChangePolygonSignal();
 
     if (!new_features.length) return;
@@ -92,10 +119,11 @@ const App = () => {
 
   const handleMapHover = (event) => {
     try {
-      const features = mapRef.current.queryRenderedFeatures(event.point);
+      console.log(event)
+      const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
       const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
       if (new_features.length) {
-        const i = { ...new_features[0], lngLat: event.lngLat };
+        const i = { ...new_features[0], lngLat: event.coordinate };
         setHoverInfo({ ...i });
       } else {
         setHoverInfo(null);
@@ -134,78 +162,96 @@ const App = () => {
     setPolygonSignal(data);
   };
 
+  const layers = [
+    new ArcLayer({
+      id: "arcs",
+      data: [
+        {
+          sourcePosition: [-74.23098436590597, -13.154420076099441],
+          targetPosition: [-74.16057332147321, -13.234837877232238],
+        },
+      ],
+      getSourcePosition: (d) => d.sourcePosition,
+      getTargetPosition: (d) => d.targetPosition,
+      getSourceColor: [0, 128, 200],
+      getTargetColor: [200, 0, 80],
+      getWidth: 4,
+    }),
+  ];
+
   return (
     <div id="map-container">
-      <Map
-        ref={mapRef}
-        onLoad={handleLoad}
-        initialViewState={{
-          latitude: -13.53774,
-          longitude: -74.12402,
-          zoom: 7.5,
-          pitch: 25,
-          bearing: 15,
-        }}
-        scrollZoom={true}
-        boxZoom={true}
-        dragRotate={true}
-        doubleClickZoom={true}
-        touchZoomRotate={true}
-        touchPitch={true}
-        minZoom={5}
-        maxZoom={16}
-        maxPitch={85}
-        minPitch={5}
-        mapStyle="mapbox://styles/devseed/clnotjmz0008s01pf5whsc05s"
-        mapboxAccessToken={API_TOKEN}
+      <DeckGL
+        ref={deckRef}
+        layers={layers}
+        initialViewState={initialViewState}
+        controller={true}
+        ContextProvider={MapContext.Provider}
         onClick={handleMapClick}
-        onMouseMove={handleMapHover}
-        terrain={{ source: "mapbox-dem", exaggeration: 1.5 }}
+        onHover={handleMapHover}
       >
-        {dataAntennas ? (
-          <Source id="antena-points" type="geojson" data={dataAntennas}>
-            <Layer
-              id="antenas-layer"
-              type="symbol"
-              layout={layoutAntena}
-              filter={
-                selectedCompanies.length
-                  ? ["all", ["in", "ico", ...selectedCompanies]]
-                  : ["all", ["==", "ico", "123123123"]]
-              }
-              maxzoom={18}
-              minzoom={MIN_ZOOM_SIGNAL}
-            />
-          </Source>
-        ) : null}
-        {dataSchool && (
-          <Source id="schools-source" type="geojson" data={dataSchool}>
-            <Layer id="schools-layer" type="circle" paint={paintSchool} maxzoom={18} minzoom={MIN_ZOOM_SCHOOL} />
-            <Layer
-              id="schools-heatmap"
-              type="heatmap"
-              maxzoom={MAX_ZOOM_HEADMAP}
-              minzoom={MIN_ZOOM_HEADMAP}
-              paint={paintHeatmap}
-            />
-          </Source>
-        )}
-        {polygonSignal && (
-          <Source id="polygon-signal" type="geojson" data={polygonSignal}>
-            <Layer id="polygon-signal-layer" type="fill" paint={paintPolygonSignal} maxzoom={18} />
-          </Source>
-        )}
-        <CustomPopup hoverInfo={hoverInfo} />
-        <Source
-          id="mapbox-dem"
-          type="raster-dem"
-          url="mapbox://mapbox.mapbox-terrain-dem-v1"
-          tileSize={512}
-          maxzoom={14}
-        />
-        <ScaleControl position="top-left" />
-        <NavigationControl position="top-left" />
-      </Map>
+        <StaticMap
+          ref={mapRef}
+          onLoad={handleLoad}
+          scrollZoom={true}
+          boxZoom={true}
+          dragRotate={true}
+          doubleClickZoom={true}
+          touchZoomRotate={true}
+          touchPitch={true}
+          minZoom={5}
+          maxZoom={16}
+          maxPitch={85}
+          minPitch={5}
+          mapStyle="mapbox://styles/devseed/clnotjmz0008s01pf5whsc05s"
+          mapboxAccessToken={API_TOKEN}
+          terrain={{ source: "mapbox-dem", exaggeration: 1.5 }}
+        >
+          {dataAntennas ? (
+            <Source id="antena-points" type="geojson" data={dataAntennas}>
+              <Layer
+                id="antenas-layer"
+                type="symbol"
+                layout={layoutAntena}
+                filter={
+                  selectedCompanies.length
+                    ? ["all", ["in", "ico", ...selectedCompanies]]
+                    : ["all", ["==", "ico", "123123123"]]
+                }
+                maxzoom={18}
+                minzoom={MIN_ZOOM_SIGNAL}
+              />
+            </Source>
+          ) : null}
+          {dataSchool && (
+            <Source id="schools-source" type="geojson" data={dataSchool}>
+              <Layer id="schools-layer" type="circle" paint={paintSchool} maxzoom={18} minzoom={MIN_ZOOM_SCHOOL} />
+              <Layer
+                id="schools-heatmap"
+                type="heatmap"
+                maxzoom={MAX_ZOOM_HEADMAP}
+                minzoom={MIN_ZOOM_HEADMAP}
+                paint={paintHeatmap}
+              />
+            </Source>
+          )}
+          {polygonSignal && (
+            <Source id="polygon-signal" type="geojson" data={polygonSignal}>
+              <Layer id="polygon-signal-layer" type="fill" paint={paintPolygonSignal} maxzoom={18} />
+            </Source>
+          )}
+          <CustomPopup hoverInfo={hoverInfo} />
+          <Source
+            id="mapbox-dem"
+            type="raster-dem"
+            url="mapbox://mapbox.mapbox-terrain-dem-v1"
+            tileSize={512}
+            maxzoom={14}
+          />
+          <ScaleControl position="top-left" />
+          <NavigationControl position="top-left" />
+        </StaticMap>
+      </DeckGL>
       <div className="aside-container">
         <AboutPanel isActive={activeComponent === "AboutPanel"} toggle={() => toggleComponent("AboutPanel")} />
         <OptionsPanel

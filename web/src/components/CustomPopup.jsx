@@ -6,7 +6,7 @@ import { TEL_NAMES_ICO } from "../utils/constants";
 const CustomPopup = ({ hoverInfo }) => {
   if (!hoverInfo) return null;
   const { id } = hoverInfo.layer;
-  const { lng, lat } = hoverInfo.lngLat;
+  const [lng, lat] = hoverInfo.lngLat;
   const { properties } = hoverInfo;
   let createTableRow = [];
   try {
