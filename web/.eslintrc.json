@@ -21,6 +21,8 @@
     ],
     "import/first": [1, "absolute-first"],
     "import/newline-after-import": 1,
-    "import/no-duplicates": 1
+    "import/no-duplicates": 1,
+    "import/no-named-as-default": 0
+
   }
 }

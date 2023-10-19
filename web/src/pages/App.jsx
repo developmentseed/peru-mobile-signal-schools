@@ -3,13 +3,14 @@ import pako from "pako";
 import StaticMap, { Source, Layer, NavigationControl, ScaleControl } from "react-map-gl";
 import React, { useRef, useState, useEffect } from "react";
 import DeckGL, { ArcLayer } from "deck.gl";
+
 import { MapContext } from "react-map-gl/dist/esm/components/map.js";
+
 import OptionsPanel from "../components/OptionsPanel.jsx";
 import DashboardPanel from "../components/DashboardPanel.jsx";
 import AboutPanel from "../components/AboutPanel.jsx";
-import CustomPopup from "../components/CustomPopup.jsx";
 import DetailPoint from "../components/DetailPoint.jsx";
-import { calculate_signal_index } from "../utils/utils.js";
+import { calculateSignalIndex } from "../utils/utils.js";
 import { layoutAntena, paintSchool, paintHeatmap, paintPolygonSignal } from "../utils/styles_map.js";
 import { MAX_ZOOM_HEADMAP, MIN_ZOOM_HEADMAP, MIN_ZOOM_SCHOOL, MIN_ZOOM_SIGNAL } from "../utils/constants.js";
 
@@ -30,6 +31,7 @@ const App = () => {
   const [selectedCompanies, setSelectedCompanies] = React.useState(["Vi", "Te", "Am", "En", "other"]);
   const [dataSchool, setDataSchool] = useState(null);
   const [dataAntennas, setDataAntennas] = useState(null);
+  const [dataSignalArc, setDataSignalArc] = useState([]);
 
   const mapRef = useRef(null);
   const deckRef = useRef(null);
@@ -50,7 +52,7 @@ const App = () => {
         jsonDataSchool = {
           ...jsonDataSchool,
           features: jsonDataSchool.features.map((i) => {
-            i.properties.signal_index = calculate_signal_index(i.properties.ant_data);
+            i.properties.signal_index = calculateSignalIndex(i.properties.ant_data);
 
             return i;
           }),
@@ -95,42 +97,49 @@ const App = () => {
     } catch (error) {
       console.error(error);
     }
+    try {
+      const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
 
-    const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
-
-    const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
-    console.log(new_features, [event.x, event.y], event);
-    handleChangePolygonSignal();
-
-    if (!new_features.length) return;
-    const feature = { ...new_features[0], lngLat: event.lngLat };
-
-    if (feature.layer.id === "antenas-layer") {
-      fetch(`${GEOJSON_URL}/${feature.properties["idx"]}.geojson`)
-        .then((response) => response.json())
-        .then((data) => {
-          handleChangePolygonSignal(data);
-        })
-        .catch((err) => {
-          console.error(err);
-          handleChangePolygonSignal();
-        });
-    } else {
+      const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
       handleChangePolygonSignal();
+      handleChangeDataSignalArc();
+
+      if (!new_features.length) return;
+      const feature = { ...new_features[0], lngLat: event.coordinate };
+
+      if (feature.layer.id === "antenas-layer") {
+        fetch(`${GEOJSON_URL}/${feature.properties["idx"]}.geojson`)
+          .then((response) => response.json())
+          .then((data) => {
+            handleChangePolygonSignal(data);
+          });
+      } else {
+        const ant_id = JSON.parse(feature.properties.ant_id || "[]").filter((i) => i.points_coords);
+        if (ant_id.length) {
+          const ant_id_arc = ant_id.map((i) => ({
+            sourcePosition: feature.lngLat,
+            targetPosition: JSON.parse(i.points_coords),
+          }));
+          handleChangeDataSignalArc(ant_id_arc);
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const handleMapHover = (event) => {
     try {
-      console.log(event);
       const features = mapRef.current.queryRenderedFeatures([event.x, event.y]);
       const new_features = features.filter((i) => i.layer && LAYERS_ACTION.includes(i.layer.id));
       if (new_features.length) {
         const i = { ...new_features[0], lngLat: event.coordinate };
         setHoverInfo({ ...i });
       } else {
+        setHoverInfo(null);
       }
     } catch (error) {
+      setHoverInfo(null);
       console.error(error);
     }
   };
@@ -163,23 +172,24 @@ const App = () => {
   const handleChangePolygonSignal = (data = null) => {
     setPolygonSignal(data);
   };
+  const handleChangeDataSignalArc = (data = null) => {
+    setDataSignalArc(data);
+  };
 
-  const layers = [
-    new ArcLayer({
-      id: "arcs",
-      data: [
-        {
-          sourcePosition: [-74.23098436590597, -13.154420076099441],
-          targetPosition: [-74.16057332147321, -13.234837877232238],
-        },
-      ],
-      getSourcePosition: (d) => d.sourcePosition,
-      getTargetPosition: (d) => d.targetPosition,
-      getSourceColor: [0, 128, 200],
-      getTargetColor: [200, 0, 80],
-      getWidth: 4,
-    }),
-  ];
+  const arcLayer = new ArcLayer({
+    id: "arcs",
+    data: dataSignalArc,
+    getSourcePosition: (d) => d.sourcePosition,
+    getTargetPosition: (d) => d.targetPosition,
+    pickable: true,
+    autoHighlight: true,
+    getSourceColor: [255, 105, 97],
+    getTargetColor: [102, 205, 170],
+    highlightColor: [255, 255, 255, 128],
+    getHeight: 0.4,
+    getWidth: 3,
+  });
+  const layers = [...(dataSignalArc && dataSignalArc.length ? [arcLayer] : [])];
 
   return (
     <div id="map-container">
