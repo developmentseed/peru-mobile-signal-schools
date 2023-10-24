@@ -38,7 +38,8 @@
     "lint": "eslint src/ --fix",
     "predeploy": "yarn  build",
     "deploy": "gh-pages -d build",
-    "stage": "yarn  build && surge ./build ayacucho-schools.surge.sh"
+    "stage": "yarn  build && surge ./build ayacucho-schools.surge.sh",
+    "generate-stats": "node generate_stats.js"
   },
   "eslintConfig": {
     "extends": [
