@@ -99,9 +99,10 @@ function calculateIdexSchool(school_data) {
         return {
           emp: company,
           count: antennasFilter.length,
-          by_signal_type: antenasFilterBySignal,
+          by_signal_type: Object.fromEntries(antenasFilterBySignal.map((i) => [i.signal_type, i.count])),
         };
       });
+
       const schoolStats = schoolsInBoundary.map((i) => {
         const indexCount = (i.properties.ant_data || [])
           .map((ad) => calculateIdexSchool(ad))
@@ -118,7 +119,7 @@ function calculateIdexSchool(school_data) {
         }
         return "High signal";
       });
-      const schoolIndex = status_signal.map((i) => {
+      const schoolIndexList = status_signal.map((i) => {
         return {
           index: i,
           count: schoolStats.filter((j) => i === j).length,
@@ -128,12 +129,15 @@ function calculateIdexSchool(school_data) {
         name: boundary.properties.shapeName,
         schoolsCount: schoolsInBoundary.length,
         antennasCount: antennasConcatenate.length,
-        antennasSignal: antennasStats,
-        schoolIndex
+        antennasSignal: Object.fromEntries(antennasStats.map((i) => [i.emp, i])),
+        schoolIndex: Object.fromEntries(schoolIndexList.map((i) => [i.index, i.count])),
       };
     });
 
-    const data = JSON.stringify(stats, null, 4);
+    const schoolIndexObj = Object.fromEntries(stats.map((i) => [i.name, i]));
+ 
+
+    const data = JSON.stringify(schoolIndexObj, null, 4);
     const filepath = path.join(__dirname, "public", "data_stats.json");
 
     fs.writeFileSync(filepath, data);

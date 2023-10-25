@@ -22,7 +22,7 @@ const Opciones = ({ isActive, toggle, handleFilter }) => {
     return (
       <div className="options">
         <button className="collapsible-button" onClick={toggle}>
-          <span>Leyenda</span>
+          <span>Legend</span>
           <span>→</span>
         </button>
       </div>
@@ -32,11 +32,11 @@ const Opciones = ({ isActive, toggle, handleFilter }) => {
     <div className="options">
       <div className="collapsible-content">
         <div className="collapsible-header">
-          <h3>Leyenda</h3>
+          <h3>Legend</h3>
           <span onClick={toggle}>←</span>
         </div>
         <div>
-          <p className="p-title">Filtro por compañía</p>
+          <p className="p-title">FFilter by company</p>
           <ul className="filter-list">
             {Object.keys(TEL_NAMES).map((key) => (
               <li key={key} className="filter-item">
@@ -53,44 +53,43 @@ const Opciones = ({ isActive, toggle, handleFilter }) => {
             ))}
           </ul>
           <div className="color-legend">
-            <p className="p-title">Colores de las instituciones educativas</p>
+            <p className="p-title">Colors of educational institutions</p>
             <ul>
               <li>
-                <span className="color-box no-signal "></span>
-                Sin señal
+                <span className="color-box no-signal"></span>
+                No signal
               </li>
               <li>
                 <span className="color-box low-signal"></span>
-                Señal baja
+                Low signal
               </li>
               <li>
                 <span className="color-box medium-signal"></span>
-                Señal media
+                Medium signal
               </li>
               <li>
                 <span className="color-box high-signal"></span>
-                Señal alta
+                High signal
               </li>
             </ul>
           </div>
           <div className="color-legend">
-            <p className="p-title">Señal de las antenas</p>
+            <p className="p-title">Antenna Signal</p>
             <ul>
               <li>
                 <span className="color-box cell-tower-signal"></span>
-                Cobertura de señal de una antena
+                Signal coverage from an antenna
               </li>
             </ul>
           </div>
           <div className="color-legend">
-            <p className="p-title">Guía de usuario</p>
+            <p className="p-title">User Guide</p>
             <p>
-              Navega por el mapa de Ayacucho, pasa el cursor sobre los puntos de las instituciones educativas o los
-              íconos de las compañías.
+              Navigate the map of Ayacucho, hover over the points of educational institutions or the icons of the
+              companies.
             </p>
-            <p>
-              Puedes hacer clic en los íconos de las compañías y ver la cobertura de señal no obstruída de la antena.
-            </p>
+            <p>You can click on the company icons and see the unobstructed signal coverage of the antenna.</p>
+            <p>Use the shift key to move the map and generate a more 3D view</p>
           </div>
         </div>
       </div>
