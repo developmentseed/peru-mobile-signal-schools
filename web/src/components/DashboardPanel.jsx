@@ -99,7 +99,7 @@ const DashboardPanel = ({ isActive, toggle, handleChangeFocus }) => {
     <div className="large-component">
       <div className="collapsible-content">
         <div className="collapsible-header">
-          <h3>Dashboard {infoFeature && infoFeature.shapeName}</h3>
+          <h3>Dashboard {infoFeature && infoFeature.name}</h3>
           <span onClick={toggle}>←</span>
         </div>
         <div className="chart-container">

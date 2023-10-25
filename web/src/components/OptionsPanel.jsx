@@ -36,7 +36,7 @@ const Opciones = ({ isActive, toggle, handleFilter }) => {
           <span onClick={toggle}>←</span>
         </div>
         <div>
-          <p className="p-title">FFilter by company</p>
+          <p className="p-title">Filter by company</p>
           <ul className="filter-list">
             {Object.keys(TEL_NAMES).map((key) => (
               <li key={key} className="filter-item">
