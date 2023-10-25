@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import pako from "pako";
 import { DeckGL, GeoJsonLayer } from "deck.gl";
+import { center } from "@turf/turf";
 
 import {
   antenasRadarData,
@@ -23,7 +24,7 @@ const INITIAL_VIEW_STATE = {
   bearing: 0,
 };
 
-const DashboardPanel = ({ isActive, toggle }) => {
+const DashboardPanel = ({ isActive, toggle, handleChangeFocus }) => {
   const [geojsonData, setGeojsonData] = useState(null);
   const [dataStats, setDataStats] = useState(null);
   const [infoFeature, setInfoFeature] = useState(null);
@@ -68,6 +69,9 @@ const DashboardPanel = ({ isActive, toggle }) => {
     if (info && info.object && dataStats !== null) {
       const { properties } = info.object;
       setInfoFeature({ ...dataStats[properties.shapeName] });
+      try {
+        handleChangeFocus(center(info.object));
+      } catch (error) {}
     }
   };
 

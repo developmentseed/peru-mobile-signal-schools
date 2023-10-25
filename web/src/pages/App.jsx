@@ -21,7 +21,7 @@ const LAYERS_ACTION = ["schools-layer", "antenas-layer"];
 const initialViewState = {
   latitude: -13.53774,
   longitude: -74.12402,
-  zoom: 8.5,
+  zoom: 8,
   pitch: 25,
   bearing: 15,
   maxPitch: 89,
@@ -38,6 +38,7 @@ const App = () => {
   const [polygonSignal, setPolygonSignal] = useState(null);
   const [hoverInfo, setHoverInfo] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
+  const [viewState, setViewState] = useState({ ...initialViewState });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -190,13 +191,24 @@ const App = () => {
     getWidth: 3,
   });
   const layers = [...(dataSignalArc && dataSignalArc.length ? [arcLayer] : [])];
+  
+  const handleChangeFocus = (feature) => {
+    try {
+      setViewState({
+        ...viewState,
+        longitude: feature.geometry.coordinates[0],
+        latitude: feature.geometry.coordinates[1],
+        zoom: 7.5,
+      });
+    } catch (error) {}
+  };
 
   return (
     <div id="map-container">
       <DeckGL
         ref={deckRef}
         layers={layers}
-        initialViewState={initialViewState}
+        initialViewState={viewState}
         controller={true}
         ContextProvider={MapContext.Provider}
         onClick={handleMapClick}
@@ -273,6 +285,7 @@ const App = () => {
         <DashboardPanel
           isActive={activeComponent === "DashboardPanel"}
           toggle={() => toggleComponent("DashboardPanel")}
+          handleChangeFocus={handleChangeFocus}
         />
         <DetailPoint hoverInfo={hoverInfo} />
       </div>
