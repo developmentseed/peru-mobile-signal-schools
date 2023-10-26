@@ -17,13 +17,19 @@ import gzip
 
 def read_viewhead(feature, file_geojson_path):
     try:
-        gdf = gpd.read_file(f"{file_geojson_path}/{feature.get('properties').get('idx')}.geojson")
+        gdf = gpd.read_file(
+            f"{file_geojson_path}/{feature.get('properties').get('idx')}.geojson"
+        )
         gdf.crs = "EPSG:4326"
-        gdf["features_intersec"] = feature.get("properties").get("features_intersec", [])
-        gdf["idx"] = feature.get('properties').get('idx')
+        gdf["features_intersec"] = str(feature.get("properties").get(
+            "features_intersec", []
+        ))
+        gdf["idx"] = feature.get("properties").get("idx")
+        gdf["points_coords"] = str(feature.get("geometry").get("coordinates"))
+
         return gdf.copy()
     except Exception as ex:
-        print(ex)
+        print("read_viewhead", ex, feature.get("properties").get("idx"))
         return gpd.GeoDataFrame()
 
 
@@ -35,7 +41,9 @@ def run(schools_path, antennas_path, schools_out_path, file_geojson_path):
     # process antenas
     df_anteas = gpd.read_file(antennas_path)
     df_anteas.crs = "EPSG:4326"
-    df_anteas["exist"] = df_anteas["idx"].apply(lambda idx: Path(f"{file_geojson_path}/{idx}.geojson").exists())
+    df_anteas["exist"] = df_anteas["idx"].apply(
+        lambda idx: Path(f"{file_geojson_path}/{idx}.geojson").exists()
+    )
     df_anteas = df_anteas[df_anteas["exist"]]
     df_anteas_json = json.loads(df_anteas.to_json()).get("features")
     new_antenas_list = Parallel(n_jobs=-1)(
@@ -47,19 +55,29 @@ def run(schools_path, antennas_path, schools_out_path, file_geojson_path):
     invalid_geoms = new_antenas[new_antenas.geometry.is_valid == False]
     if not invalid_geoms.empty:
         invalid_geoms_ids = invalid_geoms["idx"].unique().tolist()
-        new_antenas['geometry'] = new_antenas.geometry.apply(lambda x: x if x.is_valid else x.buffer(0))
+        new_antenas["geometry"] = new_antenas.geometry.apply(
+            lambda x: x if x.is_valid else x.buffer(0)
+        )
         new_antenas_filter = new_antenas[new_antenas["idx"].isin(invalid_geoms_ids)]
         for idx_g, df_g in new_antenas_filter.groupby("idx"):
             df_g = df_g[["idx", "geometry"]]
-            df_g.to_file(f"{file_geojson_path}/{idx_g}.geojson", driver='GeoJSON')
+            df_g.to_file(f"{file_geojson_path}/{idx_g}.geojson", driver="GeoJSON")
+            print(idx_g, df_g.shape)
         print("fix some geometries")
 
-    intersections = gpd.sjoin(df_schools, new_antenas, op='intersects', how='left')
+    intersections = gpd.sjoin(df_schools, new_antenas, op="intersects", how="left")
     # intersections.to_file(schools_out_path, driver="GeoJSON")
     # merge data
     intersections_json = json.loads(intersections.to_json()).get("features")
     new_features = {}
-    fields_exclude = ["fake_id", "index_right", "Value", "features_intersec", "idx"]
+    fields_exclude = [
+        "fake_id",
+        "index_right",
+        "Value",
+        "features_intersec",
+        "idx",
+        "points_coords",
+    ]
     for i in tqdm(intersections_json, desc="group by fake_id"):
         props = dict(i.get("properties"))
         fake_id = props.get("fake_id")
@@ -71,21 +89,27 @@ def run(schools_path, antennas_path, schools_out_path, file_geojson_path):
             #
             new_feature["properties"] = deepcopy(new_props)
             new_features[fake_id] = new_feature
-        idx = props.get("idx")
+
+        idx = {"idx": props.get("idx"), "points_coords": props.get("points_coords")}
         if idx:
             new_features[fake_id]["properties"]["ant_id"].append(idx)
 
         features_intersec = props.get("features_intersec", None)
         if features_intersec:
-            new_features[fake_id]["properties"]["ant_data"] += json.loads(str(features_intersec))
+            new_features[fake_id]["properties"]["ant_data"] += json.loads(
+                str(features_intersec)
+            )
     # save file
     values = list(new_features.values())
     json.dump(fc(values), open(schools_out_path, "w"))
     # save gzip
     json_str = json.dumps(fc(values))
-    json_bytes = json_str.encode('utf-8')
-    with gzip.GzipFile(schools_out_path.replace(".geojson", ".geojson.gz"), 'w') as f_out:
+    json_bytes = json_str.encode("utf-8")
+    with gzip.GzipFile(
+        schools_out_path.replace(".geojson", ".geojson.gz"), "w"
+    ) as f_out:
         f_out.write(json_bytes)
+        print("save gzip")
 
 
 @click.command(short_help="Process schools intersects ")
