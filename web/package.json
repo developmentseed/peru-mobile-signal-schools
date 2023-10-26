@@ -1,8 +1,8 @@
 {
-  "name": "peru-mobile-signal-school",
+  "name": "peru-mobile-signal-schools",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://devseed.com/peru-mobile-signal-school/",
+  "homepage": "http://devseed.com/peru-mobile-signal-schools/",
   "dependencies": {
     "@deck.gl/core": "^8.9.31",
     "@deck.gl/geo-layers": "^8.9.31",
@@ -34,14 +34,14 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "PUBLIC_URL=/peru-mobile-signal-school  react-scripts start",
+    "start": "PUBLIC_URL=/peru-mobile-signal-schools  react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "lint": "eslint src/ --fix",
     "clean": "rm -rf build/",
     "predeploy": "yarn  build",
-    "deploy": "yarn clean && PUBLIC_URL=/peru-mobile-signal-school yarn build && gh-pages -d build",
-    "stage": "yarn clean && PUBLIC_URL=/  yarn build && surge ./build peru-mobile-signal-school.surge.sh",
+    "deploy": "yarn clean && PUBLIC_URL=/peru-mobile-signal-schools yarn build && gh-pages -d build",
+    "stage": "yarn clean && PUBLIC_URL=/ yarn build && surge ./build peru-mobile-signal-school.surge.sh",
     "generate-stats": "node generate_stats.js"
   },
   "eslintConfig": {

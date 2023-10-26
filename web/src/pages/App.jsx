@@ -44,7 +44,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/assets/features_school_intersects.geojson.gz", {
+        const response = await axios.get(`${basename}/assets/features_school_intersects.geojson.gz`, {
           responseType: "arraybuffer",
         });
 
@@ -61,7 +61,7 @@ const App = () => {
         };
         setDataSchool(jsonDataSchool);
 
-        const responseAntennas = await axios.get("/assets/cobertura_app_4326.geojson.gz", {
+        const responseAntennas = await axios.get(`${basename}/assets/cobertura_app_4326.geojson.gz`, {
           responseType: "arraybuffer",
         });
 
