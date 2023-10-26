@@ -1,0 +1,1527 @@
+{
+    "Tacna": {
+        "name": "Tacna",
+        "schoolsCount": 300,
+        "antennasCount": 478,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 275,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 268,
+                    "4G": 148,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 275
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 90,
+                "by_signal_type": {
+                    "2G": 1,
+                    "3G": 26,
+                    "4G": 63,
+                    "5G": 0,
+                    "up_1mb": 27,
+                    "plus_1mb": 63
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 55,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 55,
+                    "4G": 26,
+                    "5G": 0,
+                    "up_1mb": 55,
+                    "plus_1mb": 26
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 58,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 30,
+                    "4G": 28,
+                    "5G": 0,
+                    "up_1mb": 30,
+                    "plus_1mb": 28
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 53,
+            "Low signal": 79,
+            "Medium signal": 57,
+            "High signal": 111
+        }
+    },
+    "Moquegua": {
+        "name": "Moquegua",
+        "schoolsCount": 261,
+        "antennasCount": 384,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 169,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 156,
+                    "4G": 91,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 169
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 136,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 25,
+                    "4G": 111,
+                    "5G": 0,
+                    "up_1mb": 25,
+                    "plus_1mb": 111
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 34,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 33,
+                    "4G": 30,
+                    "5G": 0,
+                    "up_1mb": 33,
+                    "plus_1mb": 30
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 45,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 16,
+                    "4G": 29,
+                    "5G": 0,
+                    "up_1mb": 16,
+                    "plus_1mb": 29
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 115,
+            "Low signal": 83,
+            "Medium signal": 33,
+            "High signal": 30
+        }
+    },
+    "Arequipa": {
+        "name": "Arequipa",
+        "schoolsCount": 1775,
+        "antennasCount": 1866,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 868,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 792,
+                    "4G": 513,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 868
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 366,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 137,
+                    "4G": 229,
+                    "5G": 0,
+                    "up_1mb": 137,
+                    "plus_1mb": 229
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 327,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 313,
+                    "4G": 195,
+                    "5G": 0,
+                    "up_1mb": 313,
+                    "plus_1mb": 195
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 305,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 128,
+                    "4G": 177,
+                    "5G": 0,
+                    "up_1mb": 128,
+                    "plus_1mb": 177
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 234,
+            "Low signal": 370,
+            "Medium signal": 775,
+            "High signal": 396
+        }
+    },
+    "Madre de Dios": {
+        "name": "Madre de Dios",
+        "schoolsCount": 234,
+        "antennasCount": 171,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 88,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 88,
+                    "4G": 29,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 88
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 23,
+                "by_signal_type": {
+                    "2G": 2,
+                    "3G": 8,
+                    "4G": 13,
+                    "5G": 0,
+                    "up_1mb": 10,
+                    "plus_1mb": 13
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 22,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 21,
+                    "4G": 19,
+                    "5G": 0,
+                    "up_1mb": 21,
+                    "plus_1mb": 19
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 38,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 29,
+                    "4G": 9,
+                    "5G": 0,
+                    "up_1mb": 29,
+                    "plus_1mb": 9
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 94,
+            "Low signal": 128,
+            "Medium signal": 12,
+            "High signal": 0
+        }
+    },
+    "Cajamarca": {
+        "name": "Cajamarca",
+        "schoolsCount": 4604,
+        "antennasCount": 2976,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1761,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1693,
+                    "4G": 681,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1761
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 524,
+                "by_signal_type": {
+                    "2G": 14,
+                    "3G": 155,
+                    "4G": 356,
+                    "5G": 0,
+                    "up_1mb": 168,
+                    "plus_1mb": 356
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 385,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 372,
+                    "4G": 173,
+                    "5G": 0,
+                    "up_1mb": 372,
+                    "plus_1mb": 173
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 306,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 88,
+                    "4G": 218,
+                    "5G": 0,
+                    "up_1mb": 88,
+                    "plus_1mb": 218
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 1648,
+            "Low signal": 2166,
+            "Medium signal": 599,
+            "High signal": 191
+        }
+    },
+    "Ica": {
+        "name": "Ica",
+        "schoolsCount": 781,
+        "antennasCount": 2067,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 801,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 794,
+                    "4G": 429,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 801
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 622,
+                "by_signal_type": {
+                    "2G": 6,
+                    "3G": 116,
+                    "4G": 502,
+                    "5G": 0,
+                    "up_1mb": 120,
+                    "plus_1mb": 502
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 140,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 140,
+                    "4G": 126,
+                    "5G": 0,
+                    "up_1mb": 140,
+                    "plus_1mb": 126
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 504,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 265,
+                    "4G": 239,
+                    "5G": 0,
+                    "up_1mb": 265,
+                    "plus_1mb": 239
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 78,
+            "Low signal": 92,
+            "Medium signal": 151,
+            "High signal": 460
+        }
+    },
+    "Puno": {
+        "name": "Puno",
+        "schoolsCount": 2549,
+        "antennasCount": 3636,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 2373,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 2231,
+                    "4G": 1211,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 2373
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 380,
+                "by_signal_type": {
+                    "2G": 16,
+                    "3G": 115,
+                    "4G": 250,
+                    "5G": 0,
+                    "up_1mb": 130,
+                    "plus_1mb": 250
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 571,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 560,
+                    "4G": 312,
+                    "5G": 0,
+                    "up_1mb": 560,
+                    "plus_1mb": 312
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 312,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 140,
+                    "4G": 172,
+                    "5G": 0,
+                    "up_1mb": 140,
+                    "plus_1mb": 172
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 802,
+            "Low signal": 963,
+            "Medium signal": 595,
+            "High signal": 189
+        }
+    },
+    "Ucayali": {
+        "name": "Ucayali",
+        "schoolsCount": 1106,
+        "antennasCount": 307,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 156,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 154,
+                    "4G": 53,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 156
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 42,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 14,
+                    "4G": 28,
+                    "5G": 0,
+                    "up_1mb": 14,
+                    "plus_1mb": 28
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 38,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 38,
+                    "4G": 19,
+                    "5G": 0,
+                    "up_1mb": 38,
+                    "plus_1mb": 19
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 71,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 42,
+                    "4G": 29,
+                    "5G": 0,
+                    "up_1mb": 42,
+                    "plus_1mb": 29
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 719,
+            "Low signal": 269,
+            "Medium signal": 96,
+            "High signal": 22
+        }
+    },
+    "Cusco": {
+        "name": "Cusco",
+        "schoolsCount": 2469,
+        "antennasCount": 3438,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1830,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1739,
+                    "4G": 819,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1830
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 531,
+                "by_signal_type": {
+                    "2G": 19,
+                    "3G": 114,
+                    "4G": 400,
+                    "5G": 0,
+                    "up_1mb": 131,
+                    "plus_1mb": 400
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 634,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 629,
+                    "4G": 377,
+                    "5G": 0,
+                    "up_1mb": 629,
+                    "plus_1mb": 377
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 443,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 219,
+                    "4G": 224,
+                    "5G": 0,
+                    "up_1mb": 219,
+                    "plus_1mb": 224
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 895,
+            "Low signal": 858,
+            "Medium signal": 663,
+            "High signal": 53
+        }
+    },
+    "Apurímac": {
+        "name": "Apurímac",
+        "schoolsCount": 1306,
+        "antennasCount": 1393,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 819,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 749,
+                    "4G": 350,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 819
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 109,
+                "by_signal_type": {
+                    "2G": 5,
+                    "3G": 32,
+                    "4G": 72,
+                    "5G": 0,
+                    "up_1mb": 37,
+                    "plus_1mb": 72
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 302,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 301,
+                    "4G": 145,
+                    "5G": 0,
+                    "up_1mb": 301,
+                    "plus_1mb": 145
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 163,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 47,
+                    "4G": 116,
+                    "5G": 0,
+                    "up_1mb": 47,
+                    "plus_1mb": 116
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 444,
+            "Low signal": 543,
+            "Medium signal": 298,
+            "High signal": 21
+        }
+    },
+    "Ayacucho": {
+        "name": "Ayacucho",
+        "schoolsCount": 1960,
+        "antennasCount": 2007,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1336,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1234,
+                    "4G": 636,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1336
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 268,
+                "by_signal_type": {
+                    "2G": 8,
+                    "3G": 52,
+                    "4G": 209,
+                    "5G": 0,
+                    "up_1mb": 59,
+                    "plus_1mb": 209
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 205,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 201,
+                    "4G": 117,
+                    "5G": 0,
+                    "up_1mb": 201,
+                    "plus_1mb": 117
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 198,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 61,
+                    "4G": 137,
+                    "5G": 0,
+                    "up_1mb": 61,
+                    "plus_1mb": 137
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 643,
+            "Low signal": 779,
+            "Medium signal": 423,
+            "High signal": 115
+        }
+    },
+    "Huancavelica": {
+        "name": "Huancavelica",
+        "schoolsCount": 1598,
+        "antennasCount": 1426,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 717,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 685,
+                    "4G": 205,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 717
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 120,
+                "by_signal_type": {
+                    "2G": 1,
+                    "3G": 18,
+                    "4G": 101,
+                    "5G": 0,
+                    "up_1mb": 19,
+                    "plus_1mb": 101
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 402,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 399,
+                    "4G": 182,
+                    "5G": 0,
+                    "up_1mb": 399,
+                    "plus_1mb": 182
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 187,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 52,
+                    "4G": 135,
+                    "5G": 0,
+                    "up_1mb": 52,
+                    "plus_1mb": 135
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 658,
+            "Low signal": 782,
+            "Medium signal": 146,
+            "High signal": 12
+        }
+    },
+    "Callao": {
+        "name": "Callao",
+        "schoolsCount": 243,
+        "antennasCount": 23,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 7,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 7,
+                    "4G": 7,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 7
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 3,
+                "by_signal_type": {
+                    "2G": 3,
+                    "3G": 0,
+                    "4G": 3,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 3
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 7,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 7,
+                    "4G": 6,
+                    "5G": 0,
+                    "up_1mb": 7,
+                    "plus_1mb": 6
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 6,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 0,
+                    "4G": 6,
+                    "5G": 1,
+                    "up_1mb": 0,
+                    "plus_1mb": 6
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 56,
+            "Low signal": 115,
+            "Medium signal": 69,
+            "High signal": 3
+        }
+    },
+    "Lima": {
+        "name": "Lima",
+        "schoolsCount": 7002,
+        "antennasCount": 3325,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1377,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1253,
+                    "4G": 935,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1377
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 700,
+                "by_signal_type": {
+                    "2G": 31,
+                    "3G": 271,
+                    "4G": 420,
+                    "5G": 0,
+                    "up_1mb": 280,
+                    "plus_1mb": 420
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 629,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 625,
+                    "4G": 452,
+                    "5G": 28,
+                    "up_1mb": 625,
+                    "plus_1mb": 452
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 619,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 252,
+                    "4G": 367,
+                    "5G": 1,
+                    "up_1mb": 252,
+                    "plus_1mb": 367
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 1569,
+            "Low signal": 3307,
+            "Medium signal": 1498,
+            "High signal": 628
+        }
+    },
+    "Junín": {
+        "name": "Junín",
+        "schoolsCount": 2735,
+        "antennasCount": 2307,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1251,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1195,
+                    "4G": 621,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1251
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 415,
+                "by_signal_type": {
+                    "2G": 17,
+                    "3G": 64,
+                    "4G": 334,
+                    "5G": 0,
+                    "up_1mb": 81,
+                    "plus_1mb": 334
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 246,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 239,
+                    "4G": 138,
+                    "5G": 0,
+                    "up_1mb": 239,
+                    "plus_1mb": 138
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 395,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 144,
+                    "4G": 251,
+                    "5G": 0,
+                    "up_1mb": 144,
+                    "plus_1mb": 251
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 1013,
+            "Low signal": 859,
+            "Medium signal": 291,
+            "High signal": 572
+        }
+    },
+    "Pasco": {
+        "name": "Pasco",
+        "schoolsCount": 868,
+        "antennasCount": 884,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 495,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 448,
+                    "4G": 262,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 495
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 196,
+                "by_signal_type": {
+                    "2G": 1,
+                    "3G": 62,
+                    "4G": 133,
+                    "5G": 0,
+                    "up_1mb": 63,
+                    "plus_1mb": 133
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 71,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 70,
+                    "4G": 57,
+                    "5G": 0,
+                    "up_1mb": 70,
+                    "plus_1mb": 57
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 122,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 54,
+                    "4G": 68,
+                    "5G": 0,
+                    "up_1mb": 54,
+                    "plus_1mb": 68
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 532,
+            "Low signal": 223,
+            "Medium signal": 109,
+            "High signal": 4
+        }
+    },
+    "Ancash": {
+        "name": "Ancash",
+        "schoolsCount": 2243,
+        "antennasCount": 4055,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 2455,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 2233,
+                    "4G": 1320,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 2455
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 632,
+                "by_signal_type": {
+                    "2G": 57,
+                    "3G": 287,
+                    "4G": 289,
+                    "5G": 0,
+                    "up_1mb": 343,
+                    "plus_1mb": 289
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 643,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 634,
+                    "4G": 290,
+                    "5G": 0,
+                    "up_1mb": 634,
+                    "plus_1mb": 290
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 325,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 141,
+                    "4G": 184,
+                    "5G": 0,
+                    "up_1mb": 141,
+                    "plus_1mb": 184
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 596,
+            "Low signal": 916,
+            "Medium signal": 503,
+            "High signal": 228
+        }
+    },
+    "Huánuco": {
+        "name": "Huánuco",
+        "schoolsCount": 2044,
+        "antennasCount": 2261,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1528,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1441,
+                    "4G": 733,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1528
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 231,
+                "by_signal_type": {
+                    "2G": 6,
+                    "3G": 47,
+                    "4G": 179,
+                    "5G": 0,
+                    "up_1mb": 52,
+                    "plus_1mb": 179
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 356,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 352,
+                    "4G": 156,
+                    "5G": 0,
+                    "up_1mb": 352,
+                    "plus_1mb": 156
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 146,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 60,
+                    "4G": 86,
+                    "5G": 0,
+                    "up_1mb": 60,
+                    "plus_1mb": 86
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 851,
+            "Low signal": 727,
+            "Medium signal": 412,
+            "High signal": 54
+        }
+    },
+    "La Libertad": {
+        "name": "La Libertad",
+        "schoolsCount": 2440,
+        "antennasCount": 2318,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1151,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1088,
+                    "4G": 554,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1151
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 397,
+                "by_signal_type": {
+                    "2G": 9,
+                    "3G": 128,
+                    "4G": 260,
+                    "5G": 0,
+                    "up_1mb": 137,
+                    "plus_1mb": 260
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 428,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 419,
+                    "4G": 229,
+                    "5G": 0,
+                    "up_1mb": 416,
+                    "plus_1mb": 229
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 342,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 177,
+                    "4G": 165,
+                    "5G": 0,
+                    "up_1mb": 177,
+                    "plus_1mb": 165
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 609,
+            "Low signal": 857,
+            "Medium signal": 473,
+            "High signal": 501
+        }
+    },
+    "Lambayeque": {
+        "name": "Lambayeque",
+        "schoolsCount": 850,
+        "antennasCount": 1909,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 810,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 805,
+                    "4G": 453,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 810
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 522,
+                "by_signal_type": {
+                    "2G": 4,
+                    "3G": 140,
+                    "4G": 378,
+                    "5G": 0,
+                    "up_1mb": 144,
+                    "plus_1mb": 378
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 187,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 180,
+                    "4G": 82,
+                    "5G": 0,
+                    "up_1mb": 180,
+                    "plus_1mb": 82
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 390,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 223,
+                    "4G": 167,
+                    "5G": 0,
+                    "up_1mb": 223,
+                    "plus_1mb": 167
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 181,
+            "Low signal": 146,
+            "Medium signal": 197,
+            "High signal": 326
+        }
+    },
+    "San Martín": {
+        "name": "San Martín",
+        "schoolsCount": 1599,
+        "antennasCount": 2457,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1488,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1476,
+                    "4G": 631,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1488
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 424,
+                "by_signal_type": {
+                    "2G": 4,
+                    "3G": 78,
+                    "4G": 342,
+                    "5G": 0,
+                    "up_1mb": 82,
+                    "plus_1mb": 342
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 195,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 192,
+                    "4G": 126,
+                    "5G": 0,
+                    "up_1mb": 192,
+                    "plus_1mb": 126
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 350,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 245,
+                    "4G": 105,
+                    "5G": 0,
+                    "up_1mb": 245,
+                    "plus_1mb": 105
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 538,
+            "Low signal": 710,
+            "Medium signal": 237,
+            "High signal": 114
+        }
+    },
+    "Amazonas": {
+        "name": "Amazonas",
+        "schoolsCount": 1419,
+        "antennasCount": 1546,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 1077,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 1074,
+                    "4G": 161,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 1077
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 120,
+                "by_signal_type": {
+                    "2G": 10,
+                    "3G": 23,
+                    "4G": 89,
+                    "5G": 0,
+                    "up_1mb": 31,
+                    "plus_1mb": 89
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 174,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 172,
+                    "4G": 58,
+                    "5G": 0,
+                    "up_1mb": 172,
+                    "plus_1mb": 58
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 175,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 125,
+                    "4G": 50,
+                    "5G": 0,
+                    "up_1mb": 125,
+                    "plus_1mb": 50
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 718,
+            "Low signal": 485,
+            "Medium signal": 203,
+            "High signal": 13
+        }
+    },
+    "Piura": {
+        "name": "Piura",
+        "schoolsCount": 2679,
+        "antennasCount": 1712,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 978,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 971,
+                    "4G": 416,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 978
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 314,
+                "by_signal_type": {
+                    "2G": 7,
+                    "3G": 87,
+                    "4G": 223,
+                    "5G": 0,
+                    "up_1mb": 91,
+                    "plus_1mb": 223
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 173,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 164,
+                    "4G": 89,
+                    "5G": 0,
+                    "up_1mb": 164,
+                    "plus_1mb": 89
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 247,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 97,
+                    "4G": 150,
+                    "5G": 0,
+                    "up_1mb": 97,
+                    "plus_1mb": 150
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 800,
+            "Low signal": 1008,
+            "Medium signal": 676,
+            "High signal": 195
+        }
+    },
+    "Tumbes": {
+        "name": "Tumbes",
+        "schoolsCount": 230,
+        "antennasCount": 234,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 108,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 108,
+                    "4G": 65,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 108
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 44,
+                "by_signal_type": {
+                    "2G": 1,
+                    "3G": 13,
+                    "4G": 30,
+                    "5G": 0,
+                    "up_1mb": 14,
+                    "plus_1mb": 30
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 41,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 41,
+                    "4G": 20,
+                    "5G": 0,
+                    "up_1mb": 41,
+                    "plus_1mb": 20
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 41,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 24,
+                    "4G": 17,
+                    "5G": 0,
+                    "up_1mb": 24,
+                    "plus_1mb": 17
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 22,
+            "Low signal": 129,
+            "Medium signal": 78,
+            "High signal": 1
+        }
+    },
+    "Loreto": {
+        "name": "Loreto",
+        "schoolsCount": 2737,
+        "antennasCount": 294,
+        "antennasSignal": {
+            "Vi": {
+                "emp": "Vi",
+                "count": 166,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 164,
+                    "4G": 61,
+                    "5G": 0,
+                    "up_1mb": 0,
+                    "plus_1mb": 166
+                }
+            },
+            "Te": {
+                "emp": "Te",
+                "count": 47,
+                "by_signal_type": {
+                    "2G": 1,
+                    "3G": 20,
+                    "4G": 26,
+                    "5G": 0,
+                    "up_1mb": 21,
+                    "plus_1mb": 26
+                }
+            },
+            "Am": {
+                "emp": "Am",
+                "count": 44,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 43,
+                    "4G": 24,
+                    "5G": 0,
+                    "up_1mb": 43,
+                    "plus_1mb": 24
+                }
+            },
+            "En": {
+                "emp": "En",
+                "count": 37,
+                "by_signal_type": {
+                    "2G": 0,
+                    "3G": 25,
+                    "4G": 12,
+                    "5G": 0,
+                    "up_1mb": 25,
+                    "plus_1mb": 12
+                }
+            }
+        },
+        "schoolIndex": {
+            "No signal": 2187,
+            "Low signal": 406,
+            "Medium signal": 132,
+            "High signal": 12
+        }
+    }
+}
