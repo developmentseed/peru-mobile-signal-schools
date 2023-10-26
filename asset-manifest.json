@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/peru-mobile-signal-school/static/css/main.7a645996.css",
-    "main.js": "/peru-mobile-signal-school/static/js/main.aa94cdea.js",
+    "main.js": "/peru-mobile-signal-school/static/js/main.0e3f501b.js",
     "static/js/483.c8c80d23.chunk.js": "/peru-mobile-signal-school/static/js/483.c8c80d23.chunk.js",
     "static/js/787.0d4bcd3e.chunk.js": "/peru-mobile-signal-school/static/js/787.0d4bcd3e.chunk.js",
     "static/media/roboto-latin-500-normal.woff2": "/peru-mobile-signal-school/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
@@ -62,12 +62,12 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/peru-mobile-signal-school/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/peru-mobile-signal-school/index.html",
     "main.7a645996.css.map": "/peru-mobile-signal-school/static/css/main.7a645996.css.map",
-    "main.aa94cdea.js.map": "/peru-mobile-signal-school/static/js/main.aa94cdea.js.map",
+    "main.0e3f501b.js.map": "/peru-mobile-signal-school/static/js/main.0e3f501b.js.map",
     "483.c8c80d23.chunk.js.map": "/peru-mobile-signal-school/static/js/483.c8c80d23.chunk.js.map",
     "787.0d4bcd3e.chunk.js.map": "/peru-mobile-signal-school/static/js/787.0d4bcd3e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.7a645996.css",
-    "static/js/main.aa94cdea.js"
+    "static/js/main.0e3f501b.js"
   ]
 }
