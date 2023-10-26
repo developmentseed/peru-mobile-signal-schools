@@ -25,7 +25,7 @@ async function fetchJSONWithAxios(url) {
 // Uso de la función
 
 async function fetchGzipedGeoJSON(filename) {
-  const filePath = path.join(__dirname, "public", filename);
+  const filePath = path.join(__dirname, "public", "assets", filename);
   const data = fs.readFileSync(filePath);
   const decompressed = pako.inflate(data, { to: "string" });
   return JSON.parse(decompressed).features;
@@ -135,10 +135,9 @@ function calculateIdexSchool(school_data) {
     });
 
     const schoolIndexObj = Object.fromEntries(stats.map((i) => [i.name, i]));
- 
 
     const data = JSON.stringify(schoolIndexObj, null, 4);
-    const filepath = path.join(__dirname, "public", "data_stats.json");
+    const filepath = path.join(__dirname, "public", "assets", "data_stats.json");
 
     fs.writeFileSync(filepath, data);
 

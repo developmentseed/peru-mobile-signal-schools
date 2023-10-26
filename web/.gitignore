@@ -24,4 +24,4 @@ yarn-error.log*
 
 .env
 /public/geojson/*
-/public/data_stats.json
+/public/**/data_stats.json

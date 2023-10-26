@@ -17,6 +17,7 @@ import { MAX_ZOOM_HEADMAP, MIN_ZOOM_HEADMAP, MIN_ZOOM_SCHOOL, MIN_ZOOM_SIGNAL } 
 const API_TOKEN = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 const GEOJSON_URL = process.env.REACT_APP_GEOJSON_URL;
 const LAYERS_ACTION = ["schools-layer", "antenas-layer"];
+const basename = (process.env.PUBLIC_URL || "").replace("//", "/");
 
 const initialViewState = {
   latitude: -13.53774,
@@ -43,7 +44,7 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/features_school_intersects.geojson.gz", {
+        const response = await axios.get("/assets/features_school_intersects.geojson.gz", {
           responseType: "arraybuffer",
         });
 
@@ -60,7 +61,7 @@ const App = () => {
         };
         setDataSchool(jsonDataSchool);
 
-        const responseAntennas = await axios.get("/cobertura_app_4326.geojson.gz", {
+        const responseAntennas = await axios.get("/assets/cobertura_app_4326.geojson.gz", {
           responseType: "arraybuffer",
         });
 
@@ -150,7 +151,7 @@ const App = () => {
     // load images
     const icons = ["bitel", "movistar", "entel", "claro", "antena"];
     icons.forEach((i) => {
-      fetch(`${i}.png`)
+      fetch(`${basename}/${i}.png`)
         .then((response) => response.blob())
         .then((blob) => {
           const reader = new FileReader();
@@ -191,7 +192,7 @@ const App = () => {
     getWidth: 3,
   });
   const layers = [...(dataSignalArc && dataSignalArc.length ? [arcLayer] : [])];
-  
+
   const handleChangeFocus = (feature) => {
     try {
       setViewState({

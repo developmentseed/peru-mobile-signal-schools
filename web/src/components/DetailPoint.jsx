@@ -2,6 +2,8 @@ import React from "react";
 
 import { TEL_NAMES_ICO } from "../utils/constants";
 
+const basename = (process.env.PUBLIC_URL || "").replace("//", "/");
+
 const DetailPoint = ({ hoverInfo }) => {
   if (!hoverInfo) return null;
   const { id } = hoverInfo.layer;
@@ -11,7 +13,7 @@ const DetailPoint = ({ hoverInfo }) => {
     createTableRow = JSON.parse(properties.features_intersec || properties.ant_data).map((i, k) => (
       <tr key={k}>
         <td>
-          <img alt="img" src={`/${TEL_NAMES_ICO[i["emp"]]}`} width={20}></img>
+          <img alt="img" src={`${basename}/${TEL_NAMES_ICO[i["emp"]]}`} width={20}></img>
         </td>
         <td className={i["up_1mb"] === "1" ? "check" : "cross"}>{i["up_1mb"] === "1" ? "✔" : "✖"}</td>
         <td className={i["plus_1mb"] === "1" ? "check" : "cross"}>{i["plus_1mb"] === "1" ? "✔" : "✖"}</td>

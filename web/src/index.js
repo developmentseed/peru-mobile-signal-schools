@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import HttpsRedirect from "react-https-redirect";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "@fontsource/roboto/300.css";
@@ -17,6 +16,7 @@ import Layout from "./components/Layout.jsx";
 import reportWebVitals from "./reportWebVitals";
 
 const defaultTheme = createTheme();
+const basename = process.env.PUBLIC_URL;
 
 const AppWrap = () => {
   return (
@@ -31,13 +31,11 @@ const AppWrap = () => {
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <HttpsRedirect>
-    <BrowserRouter basename="/peru-mobile-signal-school">
-      <Routes>
-        <Route path="/" exact element={<AppWrap />} />
-      </Routes>
-    </BrowserRouter>
-  </HttpsRedirect>,
+  <BrowserRouter basename={basename}>
+    <Routes>
+      <Route path="/" exact element={<AppWrap />} />
+    </Routes>
+  </BrowserRouter>,
 );
 
 reportWebVitals();

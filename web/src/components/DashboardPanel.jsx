@@ -34,7 +34,7 @@ const DashboardPanel = ({ isActive, toggle, handleChangeFocus }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/per-adm1.geojson.gz", {
+        const response = await axios.get("/assets/per-adm1.geojson.gz", {
           responseType: "arraybuffer",
         });
 
@@ -42,7 +42,7 @@ const DashboardPanel = ({ isActive, toggle, handleChangeFocus }) => {
         let jsonDataSchool = JSON.parse(decompressedDataSchool);
 
         setGeojsonData(jsonDataSchool);
-        const responseStats = await axios.get("/data_stats.json");
+        const responseStats = await axios.get("/assets/data_stats.json");
         setDataStats({ ...responseStats.data });
       } catch (err) {
         console.error(err);
