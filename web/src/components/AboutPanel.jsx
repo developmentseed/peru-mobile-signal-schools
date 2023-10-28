@@ -58,7 +58,7 @@ const AboutPanel = ({ isActive, toggle }) => {
             coverage ranges from <b>"no signal" </b>to <b>"high signal"</b>. We can analyze the intensity and range of
             the mobile signal in these institutions. The tool incorporates three main features: an overview, a legend
             that allows us to filter the antennas by carrier, and a control panel with statistics related to the quality
-            of service in educational institutions and a ranking of regions without service.
+            of service in educational institutions.
           </p>
           <p>
             The analysis reveals that throughout Perú, there are areas where mobile service quality is poor or even

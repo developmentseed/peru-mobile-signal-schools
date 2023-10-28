@@ -85,7 +85,7 @@ const Opciones = ({ isActive, toggle, handleFilter }) => {
           <div className="color-legend">
             <p className="p-title">User Guide</p>
             <p>
-              Navigate the map of Ayacucho, hover over the points of educational institutions or the icons of the
+              Navigate the map of Peru, hover over the points of educational institutions or the icons of the
               companies.
             </p>
             <p>You can click on the company icons and see the unobstructed signal coverage of the antenna.</p>
